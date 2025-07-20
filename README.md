@@ -51,3 +51,8 @@ sudo apt-get install portaudio19-dev espeak ffmpeg
 ```bash
 export OPENAI_API_KEY=your-api-key
 ```
+---
+
+### 🙏 Credits
+
+This project was inspired by the excellent tutorial by the [Make It Think](https://www.youtube.com/@MakeItThink) YouTube channel. Watch the original video here: [Voice Assistant on Raspberry Pi](https://www.youtube.com/watch?v=VzSrSiu0syU&ab_channel=MakeItThink).
