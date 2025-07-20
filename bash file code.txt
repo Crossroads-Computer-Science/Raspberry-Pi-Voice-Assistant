@@ -1,0 +1,16 @@
+#!/bin/bash
+
+cd /home/faraz/AI_Assistant1
+
+# Absolute path to the Python interpreter inside your virtual environment
+PYTHON=/home/faraz/AI_Assistant1/env/bin/python
+
+# Infinite loop to restart the script if it fails
+while true
+do
+    echo "🔄 Starting AI_Assistant.py..."
+    $PYTHON AI_Assistant.py
+
+    echo "⚠ Script crashed or exited. Restarting in 5 seconds..."
+    sleep 5
+done
