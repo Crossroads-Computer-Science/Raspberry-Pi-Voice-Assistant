@@ -9,9 +9,13 @@ from openai import OpenAI
 import subprocess
 import time
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Set your API keys
-client = OpenAI(api_key="YOUR_KEY_HERE")
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 # STT Parameters
 samplerate = 16000
@@ -21,6 +25,33 @@ vad = webrtcvad.Vad(2)
 
 # Trigger word (optional, can be disabled or removed)
 trigger_word = "Jarvis"
+
+
+model="gpt-4.1-mini"
+messages=[
+    {"role": "system", "content": "You are a helpful, but sarcastic and comedic assistant. You go by the name Jarvis and tell sarcastic jokes whenever possible."}
+]
+tools = [
+    {
+        "type": "function", 
+        "function": {
+            "name": "get_weather",
+            "description": "Get the current weather for a location.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "latitude":  {"type": "number"},
+                    "longitude":  {"type": "number"}
+                    },                
+                    
+                "required": ["location"], 
+                "additionalProperties": False
+            }, 
+    }
+    }
+]
+
+
 
 def audio_stream():
     with sd.InputStream(samplerate=samplerate, channels=1, dtype='int16') as stream:
@@ -63,28 +94,47 @@ def transcribe_audio(audio):
                 )
             return transcript.text
 
-def get_chatgpt_response(prompt):
+def get_chatgpt_response():
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "Your name is Jarvis. You are a smart, sarcastic, sardonic, but ultimately helpful voice assistant. You like to add humor wherever possible."},
-            {"role": "user", "content": prompt}
-        ]
+        model=model,
+        messages=messages,
+        tools=tools
+        #function_call="auto" # Let the model decide whether to call a function
     )
-    return response.choices[0].message.content.strip()
+    messages.append(response.choices[0].message)
 
-def speak_text(text, voice="en-us", pitch=50, speed=140):
+    return response
+
+import requests
+
+def get_weather(latitude, longitude):
+    response = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m")
+    data = response.json()
+
+    return data['current']['temperature_2m']
+
+def call_function(name, args):
+    if name == "get_weather":
+        return get_weather(**args)
+    #if name == "something_else":
+    #    pass
+
+
+def speak_text(text, voice="Alex", rate=200):
     try:
         subprocess.run([
-            "espeak-ng",
+            "say",
             "-v", voice,
-            "-p", str(pitch),
-            "-s", str(speed),
+            "-r", str(rate),
             text
         ], check=True)
         print("🔊 Speaking complete.")
     except subprocess.CalledProcessError as e:
         print(f"❌ Speech synthesis failed: {e}")
+    except FileNotFoundError:
+        print(f"❌ Text-to-speech not available. Would say: {text}")
+
+
 
 
 # Main Loop
@@ -99,12 +149,49 @@ while True:
         print(f"📝 You said: {text}")
 
         if trigger_word.lower() in text.lower():
-            response = get_chatgpt_response(text)
-            print(f"🤖 Jarvis: {response}")
+            # -------------------------------
+            messages.append({"role": "user", "content": text})
 
-            if response != last_spoken_text:
-                speak_text(response)
-                last_spoken_text = response
+            response = get_chatgpt_response()
+            message = response.choices[0].message
+            
+            if response.choices[0].message.tool_calls != None:
+                print("Tool Calls :") 
+                print(response.choices[0].message.tool_calls)
+                for myfunction in response.choices[0].message.tool_calls:
+                    name = myfunction.function.name 
+                    args = json.loads(myfunction.function.arguments)
+                    weather = get_weather(args["latitude"], args["longitude"])
+                    
+                    print("WEATHER DATA: ")
+                    print(weather)
+                    
+                    messages.append({
+                        "role":"tool", 
+                        "tool_call_id": myfunction.id,
+                        "content": str(weather)
+                        })
+                        
+                    print(messages)
+                    
+                    response2 = client.chat.completions.create(
+                        model=model,
+                        messages=messages,
+                        tools=tools
+                    )
+                    print("weather response")
+                    print(response2)
+                    message = response2.choices[0].message 
+                    break
+
+           
+            print(f"🤖 Jarvis: {message.content}")
+            
+            if message.content != None:
+                audable_message = message.content.strip()
+            if audable_message != last_spoken_text:
+                speak_text(audable_message)
+                last_spoken_text = audable_message
         else:
             print("❌ Trigger word not found. Skipping response.")
         
@@ -114,3 +201,4 @@ while True:
     except KeyboardInterrupt:
         print("👋 Assistant terminated by user.")
         break
+

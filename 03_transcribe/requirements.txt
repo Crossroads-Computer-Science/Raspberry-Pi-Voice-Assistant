@@ -1,0 +1,6 @@
+sounddevice
+numpy
+webrtcvad
+openai
+python-dotenv
+scipy
