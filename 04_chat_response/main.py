@@ -1,10 +1,11 @@
 import os
 from dotenv import load_dotenv
+
+# Load environment variables from .env BEFORE importing other modules
+load_dotenv()
+
 from audio import detect_speech
 from chat import transcribe_audio, get_chatgpt_response
-
-# Load environment variables from .env
-load_dotenv()
 
 SAMPLERATE = 16000
 

@@ -32,21 +32,29 @@ def transcribe_audio(audio, samplerate=16000):
             
         return transcript
 
-def get_chatgpt_response(messages):
+def get_chatgpt_response(messages, tools=None):
     """
     Get a response from ChatGPT based on the conversation history.
     
     Args:
         messages (list): List of conversation messages
+        tools (list, optional): List of available tools/functions
         
     Returns:
-        str: ChatGPT's response
+        openai.types.chat.ChatCompletion: ChatGPT's response including potential function calls
     """
-    # Get completion from ChatGPT
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",  # You can adjust the model as needed
-        messages=messages
-    )
+    # Prepare the API call parameters
+    params = {
+        "model": "gpt-3.5-turbo",  # You can adjust the model as needed
+        "messages": messages
+    }
     
-    # Extract and return the response text
-    return response.choices[0].message.content
+    # Add tools if provided
+    if tools:
+        params["tools"] = tools
+        params["tool_choice"] = "auto"  # Let the model decide when to use tools
+    
+    # Get completion from ChatGPT
+    response = client.chat.completions.create(**params)
+    
+    return response.choices[0]

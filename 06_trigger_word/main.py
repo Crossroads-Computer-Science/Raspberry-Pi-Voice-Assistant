@@ -1,61 +1,64 @@
-# main.py
-
+import os
 from dotenv import load_dotenv
-from trigger import wait_for_trigger
-from audio import detect_speech
-from transcribe import transcribe_audio
-from speak import speak
-import openai
 
-
-# Load your OpenAI API key from .env file
+# Load environment variables from .env BEFORE importing other modules
 load_dotenv()
 
-# Optional: maintain conversation context
-messages = [
-    {
-        "role": "system",
-        "content": (
-            "You are Jarvis, a sarcastic and helpful assistant. "
-            "You love to make jokes but still get the job done."
-        )
-    }
-]
+from audio import detect_speech
+from chat import transcribe_audio, get_chatgpt_response
+from speak import speak_text
 
-def chat_with_openai(prompt):
-    messages.append({"role": "user", "content": prompt})
-
-    response = openai.ChatCompletion.create(
-        model="gpt-4",  # or "gpt-3.5-turbo"
-        messages=messages,
-    )
-
-    reply = response['choices'][0]['message']['content']
-    messages.append({"role": "assistant", "content": reply})
-    return reply
+# Configuration
+SAMPLERATE = 16000
+TRIGGER_WORD = "jarvis"  # The wake word that activates the assistant
 
 def main():
-    print("Voice Assistant Ready. Say your trigger word...")
-
+    print("🎙️ Listening for trigger word 'Jarvis'...")
+    
+    # Initialize conversation history
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "You are Jarvis, a sarcastic and helpful assistant. "
+                "You love to make jokes but still get the job done."
+            )
+        }
+    ]
+    
+    # Keep listening for the trigger word
     while True:
-        wait_for_trigger()  # Blocks until wake word is detected
-        print("🎤 Trigger word detected. Listening...")
-
-        audio_data = detect_speech()
-        print("🔊 Audio captured. Transcribing...")
-
         try:
-            transcript = transcribe_audio(audio_data)
-            print("📝 You said:", transcript)
-
-            response = chat_with_openai(transcript)
-            print("🤖 Assistant:", response)
-
-            speak(response)
-
+            # Record and process audio
+            audio = detect_speech(samplerate=SAMPLERATE)
+            print("🛑 Silence detected. Transcribing...")
+            
+            # Convert speech to text
+            user_text = transcribe_audio(audio, samplerate=SAMPLERATE)
+            print(f"📝 You said: {user_text}")
+            
+            # Check if trigger word was spoken
+            if TRIGGER_WORD in user_text.lower():
+                print("✨ Trigger word detected! Processing request...")
+                
+                # Add user's message to conversation
+                messages.append({"role": "user", "content": user_text})
+                
+                # Get AI response
+                response = get_chatgpt_response(messages)
+                print(f"🤖 Jarvis: {response}")
+                
+                # Speak the response
+                speak_text(response)
+            else:
+                print("❌ Trigger word not found. Waiting for 'Jarvis'...")
+                
+        except KeyboardInterrupt:
+            print("\n👋 Goodbye!")
+            break
         except Exception as e:
-            print("⚠️ Error:", e)
-            speak("Sorry, I didn't catch that.")
+            print(f"❌ Error: {str(e)}")
+            continue
 
 if __name__ == "__main__":
     main()
