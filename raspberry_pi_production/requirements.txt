@@ -1,0 +1,23 @@
+# Core audio and speech processing
+sounddevice>=0.4.6
+numpy>=1.21.0
+scipy>=1.7.0
+webrtcvad>=2.0.10
+
+# OpenAI integration
+openai>=1.0.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Raspberry Pi specific optimizations
+gpiozero>=2.1.0  # GPIO control for LED indicators
+psutil>=5.8.0     # System monitoring
+pygame>=2.1.0     # Alternative audio backend (more reliable on Pi)
+
+# Optional: Text-to-speech alternatives for Pi
+gTTS>=2.3.0      # Google Text-to-Speech (fallback)
+pydub>=0.25.1    # Audio format conversion
+
+# System utilities
+requests>=2.25.0  # HTTP requests for weather API
