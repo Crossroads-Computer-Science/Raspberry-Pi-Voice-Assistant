@@ -27,7 +27,7 @@ class RaspberryPiVoiceAssistant:
         
         # Configuration
         self.samplerate = 16000
-        self.trigger_word = "rhodey"
+        self.trigger_word = "roadie"
         self.running = False
         
         # Performance monitoring
@@ -127,6 +127,7 @@ class RaspberryPiVoiceAssistant:
                 results = self.chat_handler.process_function_calls(response, self.tools_handler)
                 
                 # Get a new response incorporating the function results
+                # The function results are already added to conversation history by process_function_calls
                 response = self.chat_handler.get_chatgpt_response([], tools)
             
             # Extract and speak the final response

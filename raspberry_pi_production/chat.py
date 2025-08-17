@@ -98,6 +98,9 @@ class RaspberryPiChat:
             if use_function_calling and tools:
                 api_params["tools"] = tools
                 api_params["tool_choice"] = "auto"
+                print(f"🔧 Function calling enabled with {len(tools)} tools")
+            else:
+                print(f"🔧 Function calling disabled or no tools provided")
             
             # Make API call
             start_time = time.time()
@@ -216,64 +219,85 @@ class RaspberryPiChat:
         """Get list of available functions for the assistant."""
         return [
             {
-                "name": "get_weather",
-                "description": "Get current weather for a location",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "latitude": {"type": "number", "description": "Latitude coordinate"},
-                        "longitude": {"type": "number", "description": "Longitude coordinate"}
-                    },
-                    "required": ["latitude", "longitude"]
+                "type": "function",
+                "function": {
+                    "name": "get_weather",
+                    "description": "Get current weather for a location",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "latitude": {"type": "number", "description": "Latitude coordinate"},
+                            "longitude": {"type": "number", "description": "Longitude coordinate"}
+                        },
+                        "required": ["latitude", "longitude"]
+                    }
                 }
             },
             {
-                "name": "get_time",
-                "description": "Get current time and date information",
-                "parameters": {"type": "object", "properties": {}, "required": []}
-            },
-            {
-                "name": "set_timer",
-                "description": "Set a timer for a specified number of minutes",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "minutes": {"type": "number", "description": "Number of minutes"},
-                        "description": {"type": "string", "description": "Optional timer description"}
-                    },
-                    "required": ["minutes"]
+                "type": "function",
+                "function": {
+                    "name": "get_time",
+                    "description": "Get current time and date information",
+                    "parameters": {"type": "object", "properties": {}, "required": []}
                 }
             },
             {
-                "name": "get_system_status",
-                "description": "Get Raspberry Pi system status and health information",
-                "parameters": {"type": "object", "properties": {}, "required": []}
-            },
-            {
-                "name": "cancel_timer",
-                "description": "Cancel an active timer",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "timer_id": {"type": "integer", "description": "Timer ID to cancel"}
-                    },
-                    "required": ["timer_id"]
+                "type": "function",
+                "function": {
+                    "name": "set_timer",
+                    "description": "Set a timer for a specified number of minutes",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "minutes": {"type": "number", "description": "Number of minutes"},
+                            "description": {"type": "string", "description": "Optional timer description"}
+                        },
+                        "required": ["minutes"]
+                    }
                 }
             },
             {
-                "name": "get_active_timers",
-                "description": "Get information about all active timers",
-                "parameters": {"type": "object", "properties": {}, "required": []}
+                "type": "function",
+                "function": {
+                    "name": "get_system_status",
+                    "description": "Get Raspberry Pi system status and health information",
+                    "parameters": {"type": "object", "properties": {}, "required": []}
+                }
             },
             {
-                "name": "system_command",
-                "description": "Execute a safe system command",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "command": {"type": "string", "description": "System command to execute"}
-                    },
-                    "required": ["command"]
+                "type": "function",
+                "function": {
+                    "name": "cancel_timer",
+                    "description": "Cancel an active timer",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "timer_id": {"type": "integer", "description": "Timer ID to cancel"}
+                        },
+                        "required": ["timer_id"]
+                    }
+                }
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "get_active_timers",
+                    "description": "Get information about all active timers",
+                    "parameters": {"type": "object", "properties": {}, "required": []}
+                }
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "system_command",
+                    "description": "Execute a safe system command",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "command": {"type": "string", "description": "System command to execute"}
+                        },
+                        "required": ["command"]
+                    }
                 }
             }
         ]
