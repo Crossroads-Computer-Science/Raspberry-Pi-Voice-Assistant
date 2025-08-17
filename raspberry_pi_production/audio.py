@@ -1,30 +1,34 @@
-import numpy as np
 import sounddevice as sd
 import webrtcvad
-import threading
+import numpy as np
+import collections
 import time
-from gpiozero import LED
-import psutil
 
-# GPIO LED setup for Raspberry Pi (adjust pins as needed)
+# GPIO setup (if available)
+GPIO_AVAILABLE = False
 try:
+    from gpiozero import LED
     LISTENING_LED = LED(17)  # Green LED for listening
-    PROCESSING_LED = LED(18)  # Yellow LED for processing
-    SPEAKING_LED = LED(27)    # Blue LED for speaking
+    PROCESSING_LED = LED(27)  # Yellow LED for processing
+    SPEAKING_LED = LED(22)    # Red LED for speaking
     GPIO_AVAILABLE = True
-except:
-    print("⚠️ GPIO not available - running without LED indicators")
-    GPIO_AVAILABLE = False
+except ImportError:
+    print("⚠️ GPIO not available - LED indicators disabled")
 
 class RaspberryPiAudio:
     def __init__(self, samplerate=16000, channels=1, dtype=np.int16):
         self.samplerate = samplerate
         self.channels = channels
         self.dtype = dtype
-        self.vad = webrtcvad.Vad(2)  # Aggressiveness level 2
-        self.chunk_duration = 0.03  # 30ms chunks
-        self.chunk_size = int(samplerate * self.chunk_duration)
         
+        # Initialize VAD with error handling
+        try:
+            self.vad = webrtcvad.Vad(2)  # Aggressiveness level 2
+            print("✅ VAD initialized successfully")
+        except Exception as e:
+            print(f"⚠️ VAD initialization failed: {e}")
+            self.vad = None
+            
         # Audio device configuration optimized for Pi
         try:
             self.device_info = sd.query_devices()
@@ -73,7 +77,7 @@ class RaspberryPiAudio:
     
     def detect_speech(self, silence_threshold=2.0, min_speech_duration=0.5):
         """
-        Detect speech with Raspberry Pi optimizations.
+        Detect speech using the working ring buffer approach from archive.
         
         Args:
             silence_threshold (float): Seconds of silence to stop recording
@@ -85,62 +89,73 @@ class RaspberryPiAudio:
         print("🎙️ Listening for speech...")
         self.set_led("listening", True)
         
-        audio_chunks = []
-        silence_start = None
-        speech_detected = False
+        # Use the working approach from archive
+        frame_duration = 30  # ms
+        frame_size = int(self.samplerate * frame_duration / 1000)
         
-        def audio_callback(indata, frames, callback_time, status):
-            try:
-                if status:
-                    print(f"⚠️ Audio callback status: {status}")
-                
-                # Convert to proper format for VAD
-                audio_data = indata[:, 0].astype(np.int16)
-                audio_chunks.append(audio_data.copy())
-                
-                # Check if this chunk contains speech
-                if self.vad.is_speech(audio_data.tobytes(), self.samplerate):
-                    nonlocal speech_detected, silence_start
-                    speech_detected = True
-                    silence_start = None
-                elif speech_detected:
-                    if silence_start is None:
-                        silence_start = time.time()
-                    elif time.time() - silence_start > silence_threshold:
-                        raise sd.CallbackStop()
-            except Exception as e:
-                print(f"⚠️ Audio callback error: {e}")
-                # Continue processing even if there's an error
+        def audio_stream():
+            """Simple audio stream using the working approach"""
+            with sd.InputStream(samplerate=self.samplerate, channels=self.channels, dtype=self.dtype) as stream:
+                while True:
+                    try:
+                        audio = stream.read(frame_size)[0].flatten()
+                        yield audio
+                    except Exception as e:
+                        print(f"⚠️ Audio stream read error: {e}")
+                        break
+        
+        # Ring buffer approach (working method from archive)
+        ring_buffer = collections.deque(maxlen=int(700 / frame_duration))
+        triggered = False
+        voiced_frames = []
         
         try:
-            with sd.InputStream(callback=audio_callback,
-                              channels=self.channels,
-                              dtype=self.dtype,
-                              samplerate=self.samplerate,
-                              blocksize=self.chunk_size):
-                print("🔴 Recording... (speak now)")
-                while True:
-                    time.sleep(0.1)
-        except sd.CallbackStop:
-            pass
+            for frame in audio_stream():
+                if self.vad is not None:
+                    is_speech = self.vad.is_speech(frame.tobytes(), self.samplerate)
+                else:
+                    # If VAD not available, assume all frames are speech
+                    is_speech = True
+                
+                if not triggered:
+                    ring_buffer.append(frame)
+                    if self.vad is not None:
+                        num_voiced = len([f for f in ring_buffer if self.vad.is_speech(f.tobytes(), self.samplerate)])
+                        if num_voiced > 0.9 * ring_buffer.maxlen:
+                            triggered = True
+                            voiced_frames.extend(ring_buffer)
+                            ring_buffer.clear()
+                    else:
+                        # Simple trigger after some frames
+                        if len(ring_buffer) > 10:
+                            triggered = True
+                            voiced_frames.extend(ring_buffer)
+                            ring_buffer.clear()
+                else:
+                    voiced_frames.append(frame)
+                    ring_buffer.append(frame)
+                    if self.vad is not None:
+                        num_unvoiced = len([f for f in ring_buffer if not self.vad.is_speech(f.tobytes(), self.samplerate)])
+                        if num_unvoiced > 0.9 * ring_buffer.maxlen:
+                            break
+                    else:
+                        # Simple timeout
+                        if len(voiced_frames) > self.samplerate * 5:  # 5 seconds max
+                            break
+                            
+        except KeyboardInterrupt:
+            print("🛑 Recording interrupted by user")
         except Exception as e:
-            print(f"⚠️ Audio stream error: {e}")
-            # Fall back to pygame if sounddevice fails
-            print("🔄 Falling back to pygame audio backend...")
-            self.use_pygame = True
+            print(f"⚠️ Speech detection error: {e}")
         
         self.set_led("listening", False)
         
-        # If sounddevice failed and we need to fall back to pygame
-        if not audio_chunks and self.use_pygame:
-            print("🔄 Using pygame fallback for audio recording...")
-            return self._record_with_pygame()
-        
-        if not audio_chunks:
+        if not voiced_frames:
+            print("❌ No audio recorded")
             return np.array([], dtype=self.dtype)
         
-        # Concatenate all audio chunks
-        audio = np.concatenate(audio_chunks)
+        # Concatenate all audio frames
+        audio = np.concatenate(voiced_frames)
         
         # Apply basic noise reduction for Pi
         audio = self._reduce_noise(audio)
@@ -158,28 +173,6 @@ class RaspberryPiAudio:
             audio = audio * 0.1  # Reduce very quiet sections
         
         return audio
-    
-    def _record_with_pygame(self):
-        """Fallback recording method using pygame"""
-        try:
-            import pygame
-            pygame.mixer.init(frequency=self.samplerate, size=-16, channels=self.channels)
-            
-            print("🎙️ Recording with pygame (press Enter to stop)...")
-            input("Press Enter to stop recording...")
-            
-            # For pygame fallback, we'll return a simple audio array
-            # This is a basic implementation - you might want to enhance it
-            duration = 3.0  # Default 3 seconds for fallback
-            samples = int(self.samplerate * duration)
-            audio = np.zeros(samples, dtype=self.dtype)
-            
-            print(f"✅ Recorded {duration} seconds of audio (pygame fallback)")
-            return audio
-            
-        except Exception as e:
-            print(f"❌ Pygame fallback failed: {e}")
-            return np.array([], dtype=self.dtype)
     
     def play_audio(self, audio, blocking=True):
         """Play audio with LED indicator"""
@@ -208,6 +201,7 @@ class RaspberryPiAudio:
     def get_system_info(self):
         """Get Raspberry Pi system information"""
         try:
+            import psutil
             cpu_percent = psutil.cpu_percent(interval=1)
             memory = psutil.virtual_memory()
             temperature = self._get_cpu_temperature()
