@@ -17,7 +17,7 @@ from tools import RaspberryPiTools
 class RaspberryPiVoiceAssistant:
     def __init__(self):
         """Initialize the Raspberry Pi Voice Assistant."""
-        print("🤖 Initializing Jarvis - Raspberry Pi Voice Assistant...")
+        print("🤖 Initializing Roadie - Raspberry Pi Voice Assistant...")
         
         # Initialize components
         self.audio_handler = RaspberryPiAudio()
@@ -27,7 +27,7 @@ class RaspberryPiVoiceAssistant:
         
         # Configuration
         self.samplerate = 16000
-        self.trigger_word = "jarvis"
+        self.trigger_word = "roadie"
         self.running = False
         
         # Performance monitoring
@@ -38,7 +38,7 @@ class RaspberryPiVoiceAssistant:
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
         
-        print("✅ Jarvis initialization complete!")
+        print("✅ Roadie initialization complete!")
         self._print_system_info()
     
     def _signal_handler(self, signum, frame):
@@ -65,8 +65,8 @@ class RaspberryPiVoiceAssistant:
     
     def run(self):
         """Main application loop."""
-        print(f"🎙️ Jarvis is listening for trigger word '{self.trigger_word}'...")
-        print("💡 Say 'Jarvis' followed by your request")
+        print(f"🎙️ Roadie is listening for trigger word '{self.trigger_word}'...")
+        print("💡 Say 'Roadie' followed by your request")
         print("🔧 Available commands: weather, time, timer, system status, etc.")
         print("⏹️ Press Ctrl+C to exit")
         
@@ -96,7 +96,7 @@ class RaspberryPiVoiceAssistant:
                     self._process_request(user_text)
                     self.interaction_count += 1
                 else:
-                    print("❌ Trigger word not found. Waiting for 'Jarvis'...")
+                    print("❌ Trigger word not found. Waiting for 'Roadie'...")
                 
             except KeyboardInterrupt:
                 print("\n👋 Goodbye!")
@@ -132,7 +132,7 @@ class RaspberryPiVoiceAssistant:
             # Extract and speak the final response
             if response and response.choices:
                 assistant_message = response.choices[0].message.content
-                print(f"🤖 Jarvis: {assistant_message}")
+                print(f"🤖 Roadie: {assistant_message}")
                 
                 # Speak the response
                 self.speech_handler.speak_text(assistant_message)

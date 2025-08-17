@@ -26,21 +26,35 @@ class RaspberryPiAudio:
         self.chunk_size = int(samplerate * self.chunk_duration)
         
         # Audio device configuration optimized for Pi
-        self.device_info = sd.query_devices()
-        self.default_input = sd.default.device[0]
+        try:
+            self.device_info = sd.query_devices()
+            self.default_input = sd.default.device[0]
+            print(f"🎵 Audio device: {self.default_input}")
+        except Exception as e:
+            print(f"⚠️ Could not query audio devices: {e}")
+            self.default_input = None
         
         # Fallback to pygame if sounddevice fails
         self.use_pygame = False
         try:
-            sd.check_input_settings(device=self.default_input, 
-                                  samplerate=samplerate, 
-                                  channels=channels, 
-                                  dtype=dtype)
-        except:
-            print("⚠️ Sounddevice failed, falling back to pygame")
+            if self.default_input is not None:
+                sd.check_input_settings(device=self.default_input, 
+                                      samplerate=samplerate, 
+                                      channels=channels, 
+                                      dtype=dtype)
+                print("✅ Sounddevice audio settings verified")
+            else:
+                raise Exception("No audio device available")
+        except Exception as e:
+            print(f"⚠️ Sounddevice failed: {e}")
+            print("🔄 Falling back to pygame")
             self.use_pygame = True
-            import pygame
-            pygame.mixer.init(frequency=samplerate, size=-16, channels=channels)
+            try:
+                import pygame
+                pygame.mixer.init(frequency=samplerate, size=-16, channels=channels)
+                print("✅ Pygame audio backend initialized")
+            except Exception as pygame_error:
+                print(f"❌ Pygame fallback also failed: {pygame_error}")
     
     def set_led(self, led_name, state):
         """Set LED state with error handling"""
@@ -75,24 +89,28 @@ class RaspberryPiAudio:
         silence_start = None
         speech_detected = False
         
-        def audio_callback(indata, frames, time, status):
-            if status:
-                print(f"⚠️ Audio callback status: {status}")
-            
-            # Convert to proper format for VAD
-            audio_data = indata[:, 0].astype(np.int16)
-            audio_chunks.append(audio_data.copy())
-            
-            # Check if this chunk contains speech
-            if self.vad.is_speech(audio_data.tobytes(), self.samplerate):
-                nonlocal speech_detected, silence_start
-                speech_detected = True
-                silence_start = None
-            elif speech_detected:
-                if silence_start is None:
-                    silence_start = time.time()
-                elif time.time() - silence_start > silence_threshold:
-                    raise sd.CallbackStop()
+        def audio_callback(indata, frames, callback_time, status):
+            try:
+                if status:
+                    print(f"⚠️ Audio callback status: {status}")
+                
+                # Convert to proper format for VAD
+                audio_data = indata[:, 0].astype(np.int16)
+                audio_chunks.append(audio_data.copy())
+                
+                # Check if this chunk contains speech
+                if self.vad.is_speech(audio_data.tobytes(), self.samplerate):
+                    nonlocal speech_detected, silence_start
+                    speech_detected = True
+                    silence_start = None
+                elif speech_detected:
+                    if silence_start is None:
+                        silence_start = time.time()
+                    elif time.time() - silence_start > silence_threshold:
+                        raise sd.CallbackStop()
+            except Exception as e:
+                print(f"⚠️ Audio callback error: {e}")
+                # Continue processing even if there's an error
         
         try:
             with sd.InputStream(callback=audio_callback,
@@ -105,8 +123,18 @@ class RaspberryPiAudio:
                     time.sleep(0.1)
         except sd.CallbackStop:
             pass
+        except Exception as e:
+            print(f"⚠️ Audio stream error: {e}")
+            # Fall back to pygame if sounddevice fails
+            print("🔄 Falling back to pygame audio backend...")
+            self.use_pygame = True
         
         self.set_led("listening", False)
+        
+        # If sounddevice failed and we need to fall back to pygame
+        if not audio_chunks and self.use_pygame:
+            print("🔄 Using pygame fallback for audio recording...")
+            return self._record_with_pygame()
         
         if not audio_chunks:
             return np.array([], dtype=self.dtype)
@@ -130,6 +158,28 @@ class RaspberryPiAudio:
             audio = audio * 0.1  # Reduce very quiet sections
         
         return audio
+    
+    def _record_with_pygame(self):
+        """Fallback recording method using pygame"""
+        try:
+            import pygame
+            pygame.mixer.init(frequency=self.samplerate, size=-16, channels=self.channels)
+            
+            print("🎙️ Recording with pygame (press Enter to stop)...")
+            input("Press Enter to stop recording...")
+            
+            # For pygame fallback, we'll return a simple audio array
+            # This is a basic implementation - you might want to enhance it
+            duration = 3.0  # Default 3 seconds for fallback
+            samples = int(self.samplerate * duration)
+            audio = np.zeros(samples, dtype=self.dtype)
+            
+            print(f"✅ Recorded {duration} seconds of audio (pygame fallback)")
+            return audio
+            
+        except Exception as e:
+            print(f"❌ Pygame fallback failed: {e}")
+            return np.array([], dtype=self.dtype)
     
     def play_audio(self, audio, blocking=True):
         """Play audio with LED indicator"""

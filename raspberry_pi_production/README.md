@@ -1,11 +1,11 @@
-# 🤖 Jarvis - Raspberry Pi Voice Assistant (Production)
+# 🤖 Roadie - Raspberry Pi Voice Assistant (Production)
 
 A production-ready, fully-featured voice assistant optimized for Raspberry Pi with GPIO LED indicators, system monitoring, and comprehensive function calling capabilities.
 
 ## ✨ Features
 
 ### 🎤 Core Voice Assistant
-- **Wake Word Detection**: Say "Jarvis" to activate
+- **Wake Word Detection**: Say "Roadie" to activate
 - **Speech-to-Text**: OpenAI Whisper API integration
 - **Text-to-Speech**: Multiple TTS backends with fallbacks
 - **Natural Language Processing**: GPT-4o-mini for intelligent responses
@@ -89,10 +89,10 @@ python main.py
 ## 🎯 Usage Examples
 
 ### Basic Commands
-- **"Jarvis, what time is it?"** - Get current time
-- **"Jarvis, set a timer for 5 minutes"** - Set a timer
-- **"Jarvis, how's the system doing?"** - System status
-- **"Jarvis, what's the weather like?"** - Weather information
+- **"Roadie, what time is it?"** - Get current time
+- **"Roadie, set a timer for 5 minutes"** - Set a timer
+- **"Roadie, how's the system doing?"** - System status
+- **"Roadie, what's the weather like?"** - Weather information
 
 ### Advanced Features
 - **Timer Management**: Set multiple timers with descriptions
@@ -199,10 +199,10 @@ The assistant automatically monitors:
 ## 🚀 Production Deployment
 
 ### Systemd Service
-Create `/etc/systemd/system/jarvis.service`:
+Create `/etc/systemd/system/roadie.service`:
 ```ini
 [Unit]
-Description=Jarvis Voice Assistant
+Description=Roadie Voice Assistant
 After=network.target
 
 [Service]
@@ -220,18 +220,18 @@ WantedBy=multi-user.target
 
 ### Enable Service
 ```bash
-sudo systemctl enable jarvis
-sudo systemctl start jarvis
-sudo systemctl status jarvis
+sudo systemctl enable roadie
+sudo systemctl start roadie
+sudo systemctl status roadie
 ```
 
 ### Log Management
 ```bash
 # View logs
-sudo journalctl -u jarvis -f
+sudo journalctl -u roadie -f
 
 # Rotate logs
-sudo logrotate /etc/logrotate.d/jarvis
+sudo logrotate /etc/logrotate.d/roadie
 ```
 
 ## 🔄 Updates & Maintenance
@@ -246,7 +246,7 @@ source venv/bin/activate
 pip install --upgrade -r requirements.txt
 
 # Restart service
-sudo systemctl restart jarvis
+sudo systemctl restart roadie
 ```
 
 ### Backup Configuration
