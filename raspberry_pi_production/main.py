@@ -122,18 +122,41 @@ class RaspberryPiVoiceAssistant:
                 return
             
             # Handle function calls if present
-            if response.tool_calls:
-                print("🛠️ Executing function calls...")
-                results = self.chat_handler.process_function_calls(response, self.tools_handler)
+            try:
+                # Debug: Check what attributes the response has
+                print(f"🔍 Response type: {type(response)}")
+                print(f"🔍 Response attributes: {dir(response)}")
+                if hasattr(response, 'choices') and response.choices:
+                    print(f"🔍 First choice attributes: {dir(response.choices[0])}")
+                    if hasattr(response.choices[0], 'message'):
+                        print(f"🔍 Message attributes: {dir(response.choices[0].message)}")
                 
-                # Get a new response incorporating the function results
-                # The function results are already added to conversation history by process_function_calls
-                response = self.chat_handler.get_chatgpt_response([], tools)
+                # Check for tool_calls in different possible locations
+                tool_calls = None
+                if hasattr(response, 'tool_calls'):
+                    tool_calls = response.tool_calls
+                elif hasattr(response, 'choices') and response.choices and hasattr(response.choices[0], 'message'):
+                    if hasattr(response.choices[0].message, 'tool_calls'):
+                        tool_calls = response.choices[0].message.tool_calls
+                
+                if tool_calls:
+                    print("🛠️ Executing function calls...")
+                    results = self.chat_handler.process_function_calls(response, self.tools_handler)
+                    
+                    # Get a new response incorporating the function results
+                    # The function results are already added to conversation history by process_function_calls
+                    response = self.chat_handler.get_chatgpt_response([], tools)
+                else:
+                    print("🔍 No tool calls detected in response")
+                    
+            except Exception as e:
+                print(f"⚠️ Error checking for tool calls: {e}")
+                print(f"🔍 Response structure: {response}")
             
             # Extract and speak the final response
             if response and response.choices:
                 assistant_message = response.choices[0].message.content
-                print(f"🤖 Roadie: {assistant_message}")
+                print(f"🤖 Rhodey: {assistant_message}")
                 
                 # Speak the response
                 self.speech_handler.speak_text(assistant_message)

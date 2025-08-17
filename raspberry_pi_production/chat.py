@@ -96,9 +96,16 @@ class RaspberryPiChat:
             
             # Add tools if function calling is enabled
             if use_function_calling and tools:
-                api_params["tools"] = tools
-                api_params["tool_choice"] = "auto"
-                print(f"🔧 Function calling enabled with {len(tools)} tools")
+                try:
+                    api_params["tools"] = tools
+                    api_params["tool_choice"] = "auto"
+                    print(f"🔧 Function calling enabled with {len(tools)} tools")
+                except Exception as e:
+                    print(f"⚠️ Function calling setup failed: {e}")
+                    # Remove tools if they cause issues
+                    api_params.pop("tools", None)
+                    api_params.pop("tool_choice", None)
+                    print("🔄 Falling back to regular chat without function calling")
             else:
                 print(f"🔧 Function calling disabled or no tools provided")
             
@@ -106,6 +113,18 @@ class RaspberryPiChat:
             start_time = time.time()
             response = client.chat.completions.create(**api_params)
             self.last_response_time = time.time() - start_time
+            
+            # Debug: Print response structure
+            print(f"🔍 API Response type: {type(response)}")
+            print(f"🔍 API Response attributes: {dir(response)}")
+            if hasattr(response, 'choices') and response.choices:
+                print(f"🔍 First choice type: {type(response.choices[0])}")
+                print(f"🔍 First choice attributes: {dir(response.choices[0])}")
+                if hasattr(response.choices[0], 'message'):
+                    print(f"🔍 Message type: {type(response.choices[0].message)}")
+                    print(f"🔍 Message attributes: {dir(response.choices[0].message)}")
+                    if hasattr(response.choices[0].message, 'tool_calls'):
+                        print(f"🔍 Tool calls found: {response.choices[0].message.tool_calls}")
             
             # Add response to conversation history
             self.conversation_history.append(response.choices[0].message)
@@ -127,13 +146,22 @@ class RaspberryPiChat:
         Returns:
             list: Results of function calls
         """
-        if not response.tool_calls:
+        # Check for tool_calls in different possible locations
+        tool_calls = None
+        if hasattr(response, 'tool_calls'):
+            tool_calls = response.tool_calls
+        elif hasattr(response, 'choices') and response.choices and hasattr(response.choices[0], 'message'):
+            if hasattr(response.choices[0].message, 'tool_calls'):
+                tool_calls = response.choices[0].message.tool_calls
+        
+        if not tool_calls:
+            print("🔍 No tool calls found in response")
             return []
         
         results = []
         print("🛠️ Executing function calls...")
         
-        for tool_call in response.tool_calls:
+        for tool_call in tool_calls:
             try:
                 function_name = tool_call.function.name
                 function_args = json.loads(tool_call.function.arguments)
