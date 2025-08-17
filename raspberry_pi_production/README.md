@@ -148,6 +148,20 @@ sudo usermod -a -G gpio $USER
 python3 -c "from gpiozero import LED; LED(17).on()"
 ```
 
+#### Package Version Conflicts
+```bash
+# If you get version compatibility errors, try the flexible requirements:
+pip install -r requirements_flexible.txt
+
+# Or install packages individually without version constraints:
+pip install sounddevice numpy scipy webrtcvad openai python-dotenv gpiozero psutil pygame gtts pydub requests
+
+# Check your Python version:
+python3 --version
+
+# For newer Python versions (3.11+), some packages may need latest versions
+```
+
 #### Performance Issues
 ```bash
 # Monitor system resources

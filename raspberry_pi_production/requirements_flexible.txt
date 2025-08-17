@@ -1,0 +1,32 @@
+# Flexible requirements for Raspberry Pi (no version constraints)
+# Use this if the main requirements.txt causes version conflicts
+
+# Core audio and speech processing
+sounddevice
+numpy
+scipy
+webrtcvad
+
+# OpenAI integration
+openai
+
+# Environment variables
+python-dotenv
+
+# Raspberry Pi specific optimizations
+gpiozero
+psutil
+pygame
+
+# Optional: Text-to-speech alternatives for Pi
+gTTS
+pydub
+
+# System utilities
+requests
+
+# Installation instructions:
+# 1. Try the main requirements.txt first: pip install -r requirements.txt
+# 2. If you get version conflicts, use this flexible version:
+#    pip install -r requirements_flexible.txt
+# 3. The flexible version will install the latest compatible versions
