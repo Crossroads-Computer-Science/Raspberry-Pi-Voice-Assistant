@@ -27,7 +27,7 @@ class RaspberryPiVoiceAssistant:
         
         # Configuration
         self.samplerate = 16000
-        self.trigger_word = "roadie"
+        self.trigger_word = "rhodey"
         self.running = False
         
         # Performance monitoring
