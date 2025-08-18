@@ -46,6 +46,7 @@ class RaspberryPiVoiceAssistant:
         # Performance monitoring
         self.start_time = time.time()
         self.interaction_count = 0
+        self.trigger_detection_times = []  # Track trigger detection performance
         
         # Setup signal handlers for graceful shutdown
         signal.signal(signal.SIGINT, self._signal_handler)
