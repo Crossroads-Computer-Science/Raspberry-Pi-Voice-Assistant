@@ -329,6 +329,32 @@ class RaspberryPiChat:
                         "required": ["command"]
                     }
                 }
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "set_speech_speed",
+                    "description": "Set speech synthesis speed using presets or custom rate",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "speed": {"type": "string", "description": "Speed preset ('slow', 'normal', 'fast', 'very_fast') or custom rate (150-600)"}
+                        },
+                        "required": ["speed"]
+                    }
+                }
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "get_speech_speed",
+                    "description": "Get current speech synthesis speed settings and available options",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {},
+                        "required": []
+                    }
+                }
             }
         ]
 

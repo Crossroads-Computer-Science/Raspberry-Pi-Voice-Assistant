@@ -345,6 +345,82 @@ class RaspberryPiTools:
         
         return active_timers
     
+    def set_speech_speed(self, speed: str) -> dict:
+        """
+        Set speech synthesis speed.
+        
+        Args:
+            speed (str): Speed preset ('slow', 'normal', 'fast', 'very_fast') or custom rate (150-600)
+            
+        Returns:
+            dict: Result of speed change operation
+        """
+        try:
+            # Try to import speech handler
+            from speak import RaspberryPiSpeech
+            
+            # Create speech handler instance
+            speech_handler = RaspberryPiSpeech()
+            
+            # Check if it's a preset
+            if speed in speech_handler.speed_presets:
+                success = speech_handler.set_speed(speed)
+                if success:
+                    return {
+                        "success": True,
+                        "message": f"Speech speed set to {speed}",
+                        "rate": speech_handler.speed_presets[speed],
+                        "current_speed": speech_handler.get_current_speed()
+                    }
+                else:
+                    return {"error": f"Failed to set speech speed to {speed}"}
+            
+            # Check if it's a custom rate
+            try:
+                custom_rate = int(speed)
+                success = speech_handler.set_custom_rate(custom_rate)
+                if success:
+                    return {
+                        "success": True,
+                        "message": f"Speech rate set to {custom_rate}",
+                        "rate": custom_rate,
+                        "current_speed": speech_handler.get_current_speed()
+                    }
+                else:
+                    return {"error": f"Failed to set custom speech rate {custom_rate}"}
+            except ValueError:
+                return {"error": f"Invalid speed format. Use preset names or numbers 150-600"}
+                
+        except ImportError:
+            return {"error": "Speech module not available"}
+        except Exception as e:
+            return {"error": f"Speech speed change failed: {str(e)}"}
+    
+    def get_speech_speed(self) -> dict:
+        """
+        Get current speech synthesis speed settings.
+        
+        Returns:
+            dict: Current speed settings and available options
+        """
+        try:
+            from speak import RaspberryPiSpeech
+            
+            speech_handler = RaspberryPiSpeech()
+            
+            return {
+                "success": True,
+                "current_speed": speech_handler.get_current_speed(),
+                "current_rate": speech_handler.rate,
+                "available_presets": list(speech_handler.speed_presets.keys()),
+                "rate_range": "150-600"
+            }
+            
+        except ImportError:
+            return {"error": "Speech module not available"}
+        except Exception as e:
+            return {"error": f"Failed to get speech speed: {str(e)}"}
+    
     def system_command(self, command: str) -> dict:
         """
         Execute a system command safely.

@@ -14,10 +14,18 @@ except:
     GPIO_AVAILABLE = False
 
 class RaspberryPiSpeech:
-    def __init__(self, voice="Alex", rate=200):
+    def __init__(self, voice="Alex", rate=300):
         self.voice = voice
-        self.rate = rate
+        self.rate = rate  # Default rate increased for faster speech
         self.speaking = False
+        
+        # Speed presets for different use cases
+        self.speed_presets = {
+            "slow": 200,      # Very clear, good for learning
+            "normal": 300,    # Balanced speed and clarity
+            "fast": 400,      # Quick responses
+            "very_fast": 500  # Rapid responses (may reduce clarity)
+        }
         
         # Try to detect available TTS backends
         self.backends = self._detect_backends()
@@ -114,7 +122,7 @@ class RaspberryPiSpeech:
             self.speaking = False
     
     def _speak_espeak(self, text, voice, rate):
-        """Use espeak (common on Raspberry Pi)"""
+        """Use espeak (common on Raspberry Pi) with optimized settings"""
         try:
             # espeak command with Raspberry Pi optimizations
             cmd = [
@@ -122,6 +130,8 @@ class RaspberryPiSpeech:
                 "-v", voice if voice != "Alex" else "en",
                 "-s", str(rate),
                 "--punct=some",  # Say some punctuation
+                "-g", "5",       # Word gap (0-10, lower = faster)
+                "-k", "5",       # Emphasis (0-20, lower = less emphasis, faster)
                 text
             ]
             subprocess.run(cmd, check=True)
@@ -190,6 +200,33 @@ class RaspberryPiSpeech:
             print(f"❌ gTTS failed: {e}")
             raise
     
+    def set_speed(self, speed_preset):
+        """Set speech speed using predefined presets"""
+        if speed_preset in self.speed_presets:
+            self.rate = self.speed_presets[speed_preset]
+            print(f"🎤 Speech speed set to: {speed_preset} ({self.rate})")
+            return True
+        else:
+            print(f"❌ Invalid speed preset. Available: {list(self.speed_presets.keys())}")
+            return False
+    
+    def set_custom_rate(self, rate):
+        """Set custom speech rate (150-600 recommended)"""
+        if 150 <= rate <= 600:
+            self.rate = rate
+            print(f"🎤 Custom speech rate set to: {rate}")
+            return True
+        else:
+            print(f"❌ Rate must be between 150-600. Current: {rate}")
+            return False
+    
+    def get_current_speed(self):
+        """Get current speed preset name"""
+        for name, rate in self.speed_presets.items():
+            if rate == self.rate:
+                return name
+        return f"custom ({self.rate})"
+    
     def speak_async(self, text, voice=None, rate=None):
         """Speak text asynchronously (non-blocking)"""
         thread = threading.Thread(
@@ -239,7 +276,7 @@ class RaspberryPiSpeech:
         return voices[:10] if voices else ["default"]  # Limit to first 10
 
 # Convenience function for backward compatibility
-def speak_text(text, voice="Alex", rate=200):
+def speak_text(text, voice="Alex", rate=300):
     """Legacy function for backward compatibility"""
     speech_handler = RaspberryPiSpeech(voice=voice, rate=rate)
     return speech_handler.speak_text(text, voice, rate)
