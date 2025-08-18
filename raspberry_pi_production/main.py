@@ -27,7 +27,20 @@ class RaspberryPiVoiceAssistant:
         
         # Configuration
         self.samplerate = 16000
-        self.trigger_word = "rhodey"
+        # Optimized trigger words for Raspberry Pi 4
+        # Primary triggers (most common, checked first)
+        self.primary_triggers = ["rhodey", "roadie", "computer", "assistant"]
+        
+        # Extended triggers (less common, checked only if needed)
+        self.extended_triggers = ["hey rhodey", "hey roadie", "hey computer", "hey assistant"]
+        
+        # Single-word variations for speech recognition
+        self.variations = {
+            "rhodey": ["rody", "roady", "rowdy", "rhody"],
+            "roadie": ["rody", "roady", "rowdy", "rhody"],
+            "computer": ["computa", "compooter", "compuda"],
+            "assistant": ["assist", "assist", "assist"]
+        }
         self.running = False
         
         # Performance monitoring
@@ -65,8 +78,13 @@ class RaspberryPiVoiceAssistant:
     
     def run(self):
         """Main application loop."""
-        print(f"🎙️ Roadie is listening for trigger word '{self.trigger_word}'...")
-        print("💡 Say 'Roadie' followed by your request")
+        print("🎙️ Rhodey is listening...")
+        print("💡 Primary trigger words (fastest):")
+        for i, trigger in enumerate(self.primary_triggers, 1):
+            print(f"   {i}. '{trigger}'")
+        print("💡 Extended triggers:")
+        for i, trigger in enumerate(self.extended_triggers, 1):
+            print(f"   {i+len(self.primary_triggers)}. '{trigger}'")
         print("🔧 Available commands: weather, time, timer, system status, etc.")
         print("⏹️ Press Ctrl+C to exit")
         
@@ -90,13 +108,63 @@ class RaspberryPiVoiceAssistant:
                 
                 print(f"📝 You said: {user_text}")
                 
-                # Check for trigger word
-                if self.trigger_word.lower() in user_text.lower():
-                    print("✨ Trigger word detected! Processing request...")
-                    self._process_request(user_text)
+                # Optimized trigger word detection for Raspberry Pi 4
+                trigger_start_time = time.time()
+                user_text_lower = user_text.lower()
+                detected_trigger = None
+                
+                # Fast path: Check primary triggers first (most common)
+                for trigger in self.primary_triggers:
+                    if trigger in user_text_lower:
+                        detected_trigger = trigger
+                        break
+                
+                # Medium path: Check extended triggers only if primary failed
+                if not detected_trigger:
+                    for trigger in self.extended_triggers:
+                        if trigger in user_text_lower:
+                            detected_trigger = trigger
+                            break
+                
+                # Slow path: Check variations only if both above failed
+                if not detected_trigger:
+                    for base_trigger, var_list in self.variations.items():
+                        for var in var_list:
+                            if var in user_text_lower:
+                                detected_trigger = base_trigger
+                                break
+                        if detected_trigger:
+                            break
+                
+                trigger_time = time.time() - trigger_start_time
+                self.trigger_detection_times.append(trigger_time)
+                
+                if detected_trigger:
+                    print(f"✨ Trigger word '{detected_trigger}' detected! Processing request...")
+                    
+                    # Remove the trigger word from the user text for cleaner processing
+                    # Handle multi-word triggers properly
+                    if detected_trigger in ["hey rhodey", "hey roadie", "hey computer", "hey assistant", "okay rhodey", "okay roadie"]:
+                        # For multi-word triggers, remove the entire phrase
+                        cleaned_text = user_text.replace(detected_trigger, "").strip()
+                    else:
+                        # For single-word triggers, be more careful about removal
+                        words = user_text.split()
+                        trigger_words = detected_trigger.split()
+                        # Remove only the trigger word(s) from the beginning
+                        if words[:len(trigger_words)] == trigger_words:
+                            cleaned_text = " ".join(words[len(trigger_words):]).strip()
+                        else:
+                            cleaned_text = user_text.replace(detected_trigger, "").strip()
+                    
+                    if cleaned_text:
+                        self._process_request(cleaned_text)
+                    else:
+                        # If only trigger word was said, ask what they want
+                        self._process_request("What can I help you with?")
                     self.interaction_count += 1
                 else:
-                    print("❌ Trigger word not found. Waiting for 'Roadie'...")
+                    print("❌ Trigger word not found. Waiting for trigger words...")
                 
             except KeyboardInterrupt:
                 print("\n👋 Goodbye!")
@@ -198,6 +266,17 @@ class RaspberryPiVoiceAssistant:
             print(f"   Runtime: {runtime/3600:.1f} hours")
             print(f"   Interactions: {self.interaction_count}")
             print(f"   Average response time: {self.chat_handler.last_response_time:.2f}s" if self.chat_handler.last_response_time else "N/A")
+            
+            # Performance metrics
+            if self.trigger_detection_times:
+                avg_trigger_time = sum(self.trigger_detection_times) / len(self.trigger_detection_times)
+                max_trigger_time = max(self.trigger_detection_times)
+                min_trigger_time = min(self.trigger_detection_times)
+                print(f"   Trigger detection performance:")
+                print(f"     Average: {avg_trigger_time*1000:.2f}ms")
+                print(f"     Fastest: {min_trigger_time*1000:.2f}ms")
+                print(f"     Slowest: {max_trigger_time*1000:.2f}ms")
+                print(f"     Total checks: {len(self.trigger_detection_times)}")
             
         except Exception as e:
             print(f"⚠️ Error during cleanup: {e}")
