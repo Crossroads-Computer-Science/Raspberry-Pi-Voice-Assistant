@@ -1,4 +1,10 @@
-# 💬 Module 4: AI Conversations with ChatGPT
+# Module 4: AI Conversations with ChatGPT
+
+> **What you'll build:** Speak once — Jarvis transcribes what you said and replies with an AI-generated text response (no voice yet).
+>
+> **What's new:** `get_chatgpt_response()` in `chat.py`; the `messages` list that tracks conversation history.
+>
+> **What carries over:** `audio.py` and `transcribe_audio()` from Module 3 are unchanged.
 
 Welcome to Module 4! Now that your system can understand what you're saying, let's give it the ability to **have actual conversations** with you. This is where your voice assistant starts to feel truly intelligent - it's not just transcribing anymore, it's thinking and responding!
 
@@ -244,7 +250,14 @@ Think about how you might talk to a friend about a movie. You don't have to expl
 
 ---
 
-## 🔗 **What's Next**
+## Stretch Challenges
+
+1. **Change the personality** — edit the `"content"` field in the system message. Make Jarvis formal, poetic, or overly enthusiastic. How does that change the responses?
+2. **Have a multi-turn conversation** — wrap the listen/respond block in a `while True:` loop. Does Jarvis remember what you said earlier?
+3. **Inspect the messages list** — add `print(messages)` at the end. Notice how it grows with each turn.
+4. **Count tokens** — look up the OpenAI dashboard to see how many tokens your conversation used. What happens to cost as the conversation gets longer?
+
+## What's Next
 
 After mastering this module, you'll be ready for:
 - **Module 5**: Having Jarvis speak its responses back to you

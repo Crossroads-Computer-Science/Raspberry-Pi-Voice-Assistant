@@ -4,6 +4,13 @@ from dotenv import load_dotenv
 # Load environment variables from .env BEFORE importing other modules
 load_dotenv()
 
+if not os.getenv("OPENAI_API_KEY"):
+    print("❌ OpenAI API key not found!")
+    print("   Create a .env file in this folder containing:")
+    print("   OPENAI_API_KEY=your-key-here")
+    print("   Get a key at: https://platform.openai.com/api-keys")
+    exit(1)
+
 from audio import detect_speech
 from chat import transcribe_audio, get_chatgpt_response
 
@@ -32,8 +39,9 @@ def main():
     # Append user message
     messages.append({"role": "user", "content": user_text})
 
-    # Get ChatGPT response
+    # Get ChatGPT response and add it to the conversation history
     response = get_chatgpt_response(messages)
+    messages.append({"role": "assistant", "content": response})
     print(f"🤖 Jarvis: {response}")
 
 if __name__ == "__main__":

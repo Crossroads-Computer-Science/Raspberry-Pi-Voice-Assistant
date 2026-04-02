@@ -4,3 +4,4 @@ webrtcvad
 openai
 python-dotenv
 scipy
+# Windows users only: pip install pyttsx3

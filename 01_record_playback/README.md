@@ -1,6 +1,12 @@
-# 🎵 Module 1: Audio Recording & Playback
+# Module 1: Audio Recording & Playback
 
-Welcome to your first step in building a Raspberry Pi Voice Assistant! This module teaches you the **fundamentals of audio processing** - the building blocks that everything else will be built upon.
+> **What you'll build:** Record 3 seconds of audio from your microphone and play it back.
+>
+> **What's new:** Everything — this is the foundation. You'll use `sounddevice` to talk to your microphone and speakers, and `numpy` to represent audio as numbers.
+>
+> **What carries over to later modules:** The `audio.py` functions and the core idea that audio is just a list of numbers.
+
+Welcome to your first step! This module teaches you the **fundamentals of audio processing** — the building blocks that everything else will be built upon.
 
 ---
 
@@ -208,7 +214,16 @@ Think about old vinyl records vs. modern digital music. Vinyl records are like h
 
 ---
 
-## 🔗 **What's Next**
+## Stretch Challenges
+
+Once the basics are working, try these:
+
+1. **Change the recording duration** — edit `DURATION = 3` in `main.py`. What's the shortest recording that still sounds complete?
+2. **Change the sample rate** — try `SAMPLERATE = 8000` or `44100`. What do you notice about audio quality and file size?
+3. **Quiet it down** — after recording, multiply the audio array by `0.5` before playing it back. What does that do to the volume?
+4. **Count your samples** — print `len(audio)` after recording. Does it match `SAMPLERATE * DURATION`? Why or why not?
+
+## What's Next
 
 After mastering this module, you'll be ready for:
 - **Module 2**: Detecting when someone is speaking (Voice Activity Detection)

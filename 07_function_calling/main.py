@@ -1,8 +1,16 @@
 import os
+import json
 from dotenv import load_dotenv
 
 # Load environment variables from .env BEFORE importing other modules
 load_dotenv()
+
+if not os.getenv("OPENAI_API_KEY"):
+    print("❌ OpenAI API key not found!")
+    print("   Create a .env file in this folder containing:")
+    print("   OPENAI_API_KEY=your-key-here")
+    print("   Get a key at: https://platform.openai.com/api-keys")
+    exit(1)
 
 from audio import detect_speech
 from chat import transcribe_audio, get_chatgpt_response
@@ -109,7 +117,7 @@ def main():
                     
                     for tool_call in response.tool_calls:
                         function_name = tool_call.function.name
-                        function_args = eval(tool_call.function.arguments)
+                        function_args = json.loads(tool_call.function.arguments)
                         
                         # Execute the appropriate function
                         if function_name == "get_weather":

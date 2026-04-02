@@ -23,6 +23,4 @@ def get_chatgpt_response(messages: list) -> str:
         model="gpt-4.1-mini",
         messages=messages
     )
-    message = response.choices[0].message.content
-    messages.append({"role": "assistant", "content": message})
-    return message
+    return response.choices[0].message.content

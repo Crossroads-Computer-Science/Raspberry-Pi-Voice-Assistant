@@ -1,4 +1,10 @@
-# 📝 Module 3: Speech-to-Text with OpenAI Whisper
+# Module 3: Speech-to-Text with OpenAI Whisper
+
+> **What you'll build:** Speak a sentence — the program captures it, sends it to OpenAI's Whisper API, and prints the transcription.
+>
+> **What's new:** `chat.py` with the Whisper API call; `.env` file for your API key.
+>
+> **What carries over:** `audio.py` is identical to Module 2.
 
 Welcome to Module 3! Now that your system can detect when someone is speaking, let's give it the ability to **understand what they're saying**. This is where the magic really starts to happen - turning spoken words into text that your computer can work with!
 
@@ -245,7 +251,14 @@ Think about how you can understand someone even when they're talking on a bad ph
 
 ---
 
-## 🔗 **What's Next**
+## Stretch Challenges
+
+1. **Test the limits** — try whispering, speaking with an accent, or saying something in another language. How well does Whisper do?
+2. **Compare models** — in `chat.py`, change `"whisper-1"` to `"gpt-4o-mini-transcribe"`. Is there a difference in accuracy or speed?
+3. **Add punctuation** — Whisper often returns punctuation in the transcription. Print the raw `response` object (before `.text`) and see what else is in it.
+4. **Time the API call** — add `import time` and `time.time()` calls around the `transcriptions.create(...)` line. How long does the round-trip take?
+
+## What's Next
 
 After mastering this module, you'll be ready for:
 - **Module 4**: Getting AI responses to your transcribed speech

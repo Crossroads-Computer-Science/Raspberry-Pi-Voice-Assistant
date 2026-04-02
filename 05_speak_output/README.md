@@ -1,4 +1,10 @@
-# 🔊 Module 5: Text-to-Speech Output
+# Module 5: Text-to-Speech Output
+
+> **What you'll build:** The full voice loop — speak to Jarvis, it transcribes, replies, and speaks the response back to you. One exchange, end to end.
+>
+> **What's new:** `speak.py` with platform-specific TTS (macOS `say`, Windows `pyttsx3`, Linux `espeak`).
+>
+> **What carries over:** `audio.py`, `chat.py` are identical to Module 4. This module adds speaking on top.
 
 Welcome to Module 5! Now that Jarvis can have intelligent conversations with you, let's complete the voice loop by making it **speak its responses back to you**. This is where your voice assistant becomes truly conversational - you talk to it, it thinks, and then it talks back to you!
 
@@ -241,12 +247,18 @@ Think about how you might read a sentence like "The quick brown fox jumps over t
 
 ---
 
-## 🔗 **What's Next**
+## Stretch Challenges
+
+1. **Change the voice** — on macOS, run `say -v '?'` in the terminal to list available voices. Pass a different name as the `voice=` argument to `speak_text()`.
+2. **Change the speed** — try `rate=100` (slow) or `rate=300` (fast). What's the most natural speed?
+3. **Skip playback for short responses** — modify `main.py` so that if the response is under 10 words, Jarvis prints it but doesn't speak it. Why might that be useful?
+4. **Time the full loop** — measure how long the entire pipeline takes from "speech detected" to "speaking done". Which step is the bottleneck?
+
+## What's Next
 
 After mastering this module, you'll be ready for:
 - **Module 6**: Creating a hands-free wake word system
 - **Module 7**: Giving Jarvis access to real-world tools and functions
-- **Module 8**: Building a production-ready voice assistant
 
 ---
 

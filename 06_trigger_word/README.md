@@ -1,4 +1,10 @@
-# 🎯 Module 6: Wake Word Detection
+# Module 6: Wake Word Detection
+
+> **What you'll build:** A continuously listening assistant that only responds when you say "Jarvis" — and remembers the whole conversation across multiple interactions.
+>
+> **What's new:** The infinite `while True` loop that keeps Jarvis always listening; wake word detection by checking the transcription for "jarvis".
+>
+> **What carries over:** `audio.py`, `chat.py`, `speak.py` from Module 5 are essentially unchanged.
 
 Welcome to Module 6! Now that your voice assistant can have full conversations, let's make it **always ready to help** by implementing wake word detection. This is where your assistant becomes truly hands-free - just say "Jarvis" and it springs to life, ready to assist you!
 
@@ -243,32 +249,40 @@ python main.py
 
 ---
 
-## 🤔 **Wait, How Does Wake Word Detection Actually Work?**
+## How Wake Word Detection Actually Works
 
-Great question! Let me explain this in a way that makes sense without getting too technical.
+### Our simplified approach
 
-### **The Magic Behind the Scenes**
+This module detects "Jarvis" by:
+1. Listening until you stop speaking
+2. Sending the audio to Whisper for transcription
+3. Checking if the word "jarvis" appears in the transcribed text
 
-Think of wake word detection like having a really attentive friend who's always listening to you, but only pays attention when you say their name. This friend can hear everything you're saying, but they only "wake up" and start helping when you specifically call them.
+This works, but it's slow — you have to finish speaking, wait for the transcription, and then find out whether it was a wake word or not.
 
-**Here's what's happening:**
-Your system is constantly listening to everything around it, just like you might hear background noise, music, or other people talking. But it's specifically listening for the pattern of sounds that make up the word "Jarvis." When it hears that pattern, it's like flipping a switch from "listening mode" to "helping mode."
+### How Alexa, Siri, and "Hey Google" actually work
 
-**Why this is so clever:**
-Instead of your computer constantly trying to process every sound it hears (which would be exhausting and waste battery), it only does the heavy lifting when you actually want help. It's like having a smart light switch that only turns on the lights when you say "turn on the lights" instead of trying to turn them on for every sound it hears.
+Real voice assistants use a completely different approach. They run a tiny, dedicated **wake word model** (just a few megabytes) that runs entirely on-device, 24/7, without sending anything to the cloud. This model only has one job: recognize the specific sound pattern of "Alexa" or "Hey Siri." It's fast, cheap, and private.
 
-### **Real-World Example**
-Think about how you might be in a room with lots of people talking, but when someone says your name, you immediately perk up and pay attention. That's exactly what your wake word system does! It can ignore all the background conversation, but the moment it hears "Jarvis," it's like someone tapped you on the shoulder and said "Hey, you're needed!"
+Only *after* the wake word is detected does the device start recording and sending audio to the cloud for full speech recognition.
 
-**The key insight:** Wake word detection isn't about understanding everything you're saying - it's about being really good at recognizing one specific pattern (your wake word) so it can save energy and only help when you actually want it to!
+Our version sends everything to the cloud for transcription first — which is simpler to build but costs API credits for every background noise it picks up. It's a great learning prototype, but this is why real products need a different architecture.
+
+**Think about:** If you wanted to build a truly low-latency, always-on wake word detector, what would you need? Look up "Porcupine wake word" or "openWakeWord" if you're curious.
 
 ---
 
-## 🔗 **What's Next**
+## Stretch Challenges
+
+1. **Change the wake word** — edit `TRIGGER_WORD = "jarvis"` to something else. Try a two-word phrase like `"hey computer"`. What happens?
+2. **Add a sleeping mode** — after Jarvis responds, make it say "Going to sleep" and require you to say the wake word twice in a row before it responds again.
+3. **Multiple wake words** — modify the check so that either "jarvis" or "computer" activates the assistant.
+4. **Measure the cost** — after 10 interactions, check your OpenAI dashboard. How many API calls did Jarvis make per interaction? (Hint: every transcription — including the ignored ones — costs something.)
+
+## What's Next
 
 After mastering this module, you'll be ready for:
 - **Module 7**: Giving Jarvis access to real-world tools and functions
-- **Module 8**: Building a production-ready voice assistant with hardware integration
 
 ---
 

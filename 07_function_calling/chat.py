@@ -45,7 +45,7 @@ def get_chatgpt_response(messages, tools=None):
     """
     # Prepare the API call parameters
     params = {
-        "model": "gpt-3.5-turbo",  # You can adjust the model as needed
+        "model": "gpt-4.1-mini",
         "messages": messages
     }
     

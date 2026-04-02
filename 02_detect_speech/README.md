@@ -1,6 +1,12 @@
-# 🎤 Module 2: Voice Activity Detection (VAD)
+# Module 2: Voice Activity Detection (VAD)
 
-Welcome to Module 2! Now that you can record and play audio, let's make your system **intelligent** - it will automatically detect when someone is speaking and when they stop. This is the foundation for hands-free voice interaction!
+> **What you'll build:** A program that listens continuously and only captures audio when you speak, stopping when you go quiet.
+>
+> **What's new:** `webrtcvad` for speech detection, the generator-based audio stream, and the ring buffer algorithm.
+>
+> **What carries over:** `audio.py` from this module is reused (nearly identically) in all future modules.
+
+Welcome to Module 2! Now that you can record and play audio, let's make your system **intelligent** — it will automatically detect when someone is speaking and when they stop. This is the foundation for hands-free voice interaction!
 
 ---
 
@@ -28,26 +34,36 @@ vad = webrtcvad.Vad(2)  # Aggressiveness level 2
 - **Aggressiveness levels**: 0-3 (0=least aggressive, 3=most aggressive)
 - **Why level 2**: Good balance between detecting speech and avoiding false positives
 
-#### 2. **Real-time Audio Streaming**
+#### 2. **Real-time Audio Streaming (Generator Pattern)**
 ```python
-def audio_callback(indata, frames, time, status):
-    # Process audio data as it arrives
-    audio_data = indata[:, 0].astype(np.int16)
+def audio_stream(samplerate=16000, frame_duration_ms=30):
+    frame_size = int(samplerate * frame_duration_ms / 1000)
+    with sd.InputStream(samplerate=samplerate, channels=1, dtype='int16') as stream:
+        while True:
+            audio = stream.read(frame_size)[0].flatten()
+            yield audio  # hand one frame to the caller, then pause until asked for the next
 ```
-- **Streaming vs. Recording**: Audio is processed in real-time, not stored first
-- **Callback function**: Called automatically when new audio data arrives
-- **Frame-based processing**: Audio is processed in small chunks (frames)
-- **Continuous operation**: System keeps running, always listening
+- **Generator vs. callback**: Instead of registering a callback function, we use a Python generator (`yield`). The caller pulls one frame at a time.
+- **Frame-based processing**: Audio is processed in small 30ms chunks
+- **Continuous operation**: The `while True` loop keeps producing frames until we stop iterating
 
-#### 3. **Audio Chunking**
+#### 3. **The Ring Buffer Algorithm**
 ```python
-chunk_duration = 0.03  # 30ms chunks
-chunk_size = int(samplerate * chunk_duration)
+ring_buffer = collections.deque(maxlen=int(700 / frame_duration_ms))  # ~700ms window
+
+# Phase 1: waiting for speech to start
+ring_buffer.append(frame)
+num_voiced = len([f for f in ring_buffer if vad.is_speech(f.tobytes(), samplerate)])
+if num_voiced > 0.9 * ring_buffer.maxlen:
+    triggered = True  # speech confirmed!
+
+# Phase 2: recording speech, watching for silence
+num_unvoiced = len([f for f in ring_buffer if not vad.is_speech(f.tobytes(), samplerate)])
+if num_unvoiced > 0.9 * ring_buffer.maxlen:
+    break  # sustained silence — speaker has finished
 ```
-- **Why chunk audio**: Real-time processing needs small, manageable pieces
-- **30ms chunks**: Good balance between responsiveness and accuracy
-- **Overlap handling**: Each chunk is processed independently
-- **Memory efficiency**: Small chunks use less memory
+- **Why a ring buffer?** VAD can be "jumpy" — a single quiet frame doesn't mean the speaker stopped. By requiring 90% of a 700ms window to be silent, we get smooth, natural boundaries.
+- **The lead-in**: When speech is confirmed, we include all the frames already in the buffer, so we don't miss the start of the first word.
 
 ---
 
@@ -80,44 +96,35 @@ chunk_size = int(samplerate * chunk_duration)
 - Audio chunk size is calculated based on sample rate
 - System prepares for continuous audio monitoring
 
-### **Step 2: Start Audio Stream**
+### **Step 2: Stream Audio Frame by Frame**
 ```python
-# 1. Open continuous audio input stream
-with sd.InputStream(callback=audio_callback, 
-                   channels=1, 
-                   dtype=np.int16,
-                   blocksize=chunk_size) as stream:
-    
-    # 2. Keep stream open and processing
-    while True:
-        time.sleep(0.1)  # Small delay to prevent CPU overload
+for frame in audio_stream(samplerate, frame_duration_ms):
+    is_speech = vad.is_speech(frame.tobytes(), samplerate)
+    # ... ring buffer logic
 ```
 
 **What happens:**
-- Microphone starts continuously listening
-- Audio data flows in real-time
-- Callback function processes each chunk automatically
+- `audio_stream()` opens the microphone and yields one 30ms chunk at a time
+- Each frame is immediately checked by VAD
+- The `for` loop runs until we `break` out of it (when sustained silence is detected)
 
-### **Step 3: Process Each Audio Chunk**
+### **Step 3: React to VAD Results**
 ```python
-def audio_callback(indata, frames, time, status):
-    # 1. Convert incoming audio to proper format
-    audio_data = indata[:, 0].astype(np.int16)
-    
-    # 2. Check if this chunk contains speech
-    is_speech = vad.is_speech(audio_data.tobytes(), samplerate)
-    
-    # 3. Handle speech detection
-    if is_speech:
-        print("🎤 Speech detected!")
-    else:
-        print("🔇 Silence...")
+if not triggered:
+    ring_buffer.append(frame)
+    if num_voiced > 0.9 * ring_buffer.maxlen:
+        triggered = True           # speech confirmed — start collecting
+        voiced_frames.extend(ring_buffer)
+else:
+    voiced_frames.append(frame)    # already recording — keep accumulating
+    if num_unvoiced > 0.9 * ring_buffer.maxlen:
+        break                      # sustained silence — we're done
 ```
 
 **What happens:**
-- Each 30ms audio chunk is analyzed
-- VAD determines if speech is present
-- System responds immediately to speech/silence
+- Before speech: buffer fills up; 90% voiced frames trigger recording mode
+- During speech: every frame is saved to `voiced_frames`
+- After speech: 90% silent frames in the buffer means the speaker stopped
 
 ---
 
@@ -246,7 +253,14 @@ chunk_duration = 0.05  # Larger chunks = fewer processing calls
 
 ---
 
-## 🔗 **What's Next**
+## Stretch Challenges
+
+1. **Tune the aggressiveness** — change `vad_level` from 2 to 0 or 3. What breaks? What improves?
+2. **Adjust the silence window** — change `700` in `maxlen=int(700 / frame_duration_ms)` to `300` or `1500`. How does it affect when recording stops?
+3. **Count the frames** — add a print statement inside the `for` loop counting how many total frames were processed vs. how many made it into `voiced_frames`. What ratio do you get for a short sentence?
+4. **Visualize it** — after `detect_speech()` returns, plot the audio array with `import matplotlib.pyplot as plt; plt.plot(audio); plt.show()`. Can you see where speech starts and ends?
+
+## What's Next
 
 After mastering this module, you'll be ready for:
 - **Module 3**: Converting detected speech to text (Speech-to-Text)

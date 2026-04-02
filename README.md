@@ -26,35 +26,31 @@ This project is structured as a **step-by-step journey** that teaches you voice 
 ## 🚀 **Getting Started**
 
 ### **Prerequisites**
-- A Raspberry Pi (any model with internet and audio support)
-- Microphone input (USB or built-in)
-- Speaker output (3.5mm jack, HDMI, or USB)
-- Python 3.7+
+- A computer with a microphone and speakers (macOS, Windows, or Linux/Raspberry Pi)
+- Python 3.9+
 - An OpenAI API Key ([Get one here](https://platform.openai.com/api-keys))
 
 ### **Initial Setup**
 
-#### 1. Clone and Navigate
-```bash
-git clone https://github.com/your-username/Raspberry-Pi-Voice-Assistant.git
-cd Raspberry-Pi-Voice-Assistant
-```
+See **[SETUP.md](./SETUP.md)** for full instructions, including Windows-specific steps (webrtcvad, pyttsx3) and Raspberry Pi system packages.
 
-#### 2. Create Virtual Environment
+#### Quick start (macOS / Linux)
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-```
-
-#### 3. Install Root Dependencies
-```bash
+cd 01_record_playback
 pip install -r requirements.txt
+python main.py
 ```
 
-#### 4. Install System Packages
+#### Quick start (Windows)
 ```bash
-sudo apt-get update
-sudo apt-get install portaudio19-dev espeak ffmpeg
+python -m venv venv
+venv\Scripts\activate
+pip install webrtcvad-wheels pyttsx3
+cd 01_record_playback
+pip install -r requirements.txt
+python main.py
 ```
 
 ---
@@ -146,13 +142,11 @@ sudo apt-get install portaudio19-dev espeak ffmpeg
 6. **Test functionality:** Follow the prompts and experiment!
 
 ### **Environment Setup for Each Module**
-```bash
-# In each folder, create a .env file:
-echo "OPENAI_API_KEY=your_actual_api_key_here" > .env
-
-# Or use environment variable:
-export OPENAI_API_KEY=your_actual_api_key_here
+Modules 03–07 require an OpenAI API key. Create a `.env` file in each module folder:
 ```
+OPENAI_API_KEY=your-key-here
+```
+See [SETUP.md](./SETUP.md) for detailed instructions, including Windows steps.
 
 ---
 
@@ -173,25 +167,26 @@ By completing this project, you'll understand:
 
 ### **Audio Problems**
 ```bash
-# Check audio devices
-aplay -l
-arecord -l
-
-# Test microphone
-arecord -d 5 test.wav
-aplay test.wav
+# Check what audio devices Python can see (all platforms)
+python -c "import sounddevice as sd; print(sd.query_devices())"
 ```
 
 ### **API Key Issues**
-- Ensure `.env` file is in the correct folder
+- Ensure `.env` file is in the **same folder** as the module you're running
 - Check that `python-dotenv` is installed
 - Verify API key is valid and has credits
 
-### **Permission Issues**
+### **Windows: webrtcvad won't install**
 ```bash
-# Fix GPIO permissions (if using production version)
-sudo usermod -a -G gpio $USER
+pip install webrtcvad-wheels
 ```
+
+### **Windows: no speech output**
+```bash
+pip install pyttsx3
+```
+
+See [SETUP.md](./SETUP.md) for more detailed troubleshooting.
 
 ---
 

@@ -44,7 +44,7 @@ def get_chatgpt_response(messages):
     """
     # Get completion from ChatGPT
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",  # You can adjust the model as needed
+        model="gpt-4.1-mini",
         messages=messages
     )
     

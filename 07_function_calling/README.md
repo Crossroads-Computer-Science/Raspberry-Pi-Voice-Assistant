@@ -1,4 +1,10 @@
-# 🛠️ Module 7: Function Calling & AI Tools
+# Module 7: Function Calling & AI Tools
+
+> **What you'll build:** Ask "Jarvis, what's the weather?" and it actually checks. Ask it to set a timer and it does. The AI decides which tools to use and when.
+>
+> **What's new:** `tools.py` with real functions; the two-step API call pattern where ChatGPT requests a function, we run it, and then re-ask ChatGPT with the result.
+>
+> **What carries over:** Everything from Module 6. This module adds `tools.py` and updates how `get_chatgpt_response()` is called.
 
 Welcome to Module 7! Now that Jarvis can have conversations and respond to wake words, let's give it **superpowers** by connecting it to real-world functions. This is where your voice assistant becomes truly useful - it can check the weather, set timers, tell you the time, and even run system commands!
 
@@ -86,7 +92,37 @@ elif function_name == "set_timer":
 
 ---
 
-## 🔧 **How It Works**
+## The Two-Step API Pattern
+
+This is the most important concept in this module. When tools are involved, one request to ChatGPT is not enough:
+
+```
+You ask: "Jarvis, what's the weather?"
+         │
+         ▼
+  ChatGPT (with tools) ──► Does it need a tool?
+         │                        │
+         │                     YES: returns tool_calls (not text yet)
+         │                        │
+         ▼                        ▼
+  No tool needed          We run get_weather()
+  → Speak response              │
+                                ▼
+                        Add result to messages
+                                │
+                                ▼
+                        ChatGPT again (now has real data)
+                                │
+                                ▼
+                        Returns natural language response
+                                │
+                                ▼
+                        Jarvis speaks it
+```
+
+The first API call tells us *what* to do. The second API call produces the *response* using the real data.
+
+## How It Works
 
 ### **Step 1: AI Sees Available Tools**
 ```python
@@ -264,10 +300,16 @@ Think about asking a smart home assistant "Turn on the lights." Without function
 
 ---
 
-## 🔗 **What's Next**
+## Stretch Challenges
 
-After mastering this module, you'll be ready for:
-- **Module 8**: Building a production-ready voice assistant with hardware integration
+1. **Add a new tool** — write a `get_joke()` function in `tools.py` that returns a joke from a free API (or just hardcodes a few). Register it in the `tools` list in `main.py`. Ask Jarvis to tell you a joke.
+2. **Add a search tool** — create a `search_web(query)` function. Even a simple one that opens a browser with `webbrowser.open(f"https://google.com/search?q={query}")` shows the concept.
+3. **Test the AI's judgment** — ask "Jarvis, what time is it and what's the weather?" Does it call both functions? Look at the `response.tool_calls` list to see.
+4. **Handle a bad tool call** — what happens if the weather API is down? Add a `try/except` in `get_weather()` and see how Jarvis handles it gracefully.
+
+## What's Next
+
+This is the final lesson module. The `raspberry_pi_production/` folder shows a production-ready version of the same system with hardware indicators, system monitoring, and auto-start on boot.
 
 ---
 
