@@ -10,7 +10,7 @@ try:
     SPEAKING_LED = LED(27)  # Blue LED for speaking
     GPIO_AVAILABLE = True
 except:
-    print("⚠️ GPIO not available - running without LED indicators")
+    print(" GPIO not available - running without LED indicators")
     GPIO_AVAILABLE = False
 
 class RaspberryPiSpeech:
@@ -29,7 +29,7 @@ class RaspberryPiSpeech:
         
         # Try to detect available TTS backends
         self.backends = self._detect_backends()
-        print(f"🎤 Available TTS backends: {list(self.backends.keys())}")
+        print(f" Available TTS backends: {list(self.backends.keys())}")
     
     def _detect_backends(self):
         """Detect available text-to-speech backends on the system"""
@@ -76,7 +76,7 @@ class RaspberryPiSpeech:
             else:
                 SPEAKING_LED.off()
         except Exception as e:
-            print(f"⚠️ LED control error: {e}")
+            print(f" LED control error: {e}")
     
     def speak_text(self, text, voice=None, rate=None):
         """
@@ -93,7 +93,7 @@ class RaspberryPiSpeech:
         voice = voice or self.voice
         rate = rate or self.rate
         
-        print(f"🔊 Speaking: {text[:50]}{'...' if len(text) > 50 else ''}")
+        print(f" Speaking: {text[:50]}{'...' if len(text) > 50 else ''}")
         self.set_led(True)
         self.speaking = True
         
@@ -108,14 +108,14 @@ class RaspberryPiSpeech:
             elif self.backends.get("gtts"):
                 self._speak_gtts(text)
             else:
-                print("❌ No TTS backend available")
+                print(" No TTS backend available")
                 return False
                 
-            print("✅ Speech synthesis complete")
+            print(" Speech synthesis complete")
             return True
             
         except Exception as e:
-            print(f"❌ Speech synthesis failed: {e}")
+            print(f" Speech synthesis failed: {e}")
             return False
         finally:
             self.set_led(False)
@@ -136,7 +136,7 @@ class RaspberryPiSpeech:
             ]
             subprocess.run(cmd, check=True)
         except subprocess.CalledProcessError as e:
-            print(f"❌ espeak failed: {e}")
+            print(f" espeak failed: {e}")
             raise
     
     def _speak_macos(self, text, voice, rate):
@@ -149,7 +149,7 @@ class RaspberryPiSpeech:
                 text
             ], check=True)
         except subprocess.CalledProcessError as e:
-            print(f"❌ macOS say failed: {e}")
+            print(f" macOS say failed: {e}")
             raise
     
     def _speak_festival(self, text):
@@ -166,7 +166,7 @@ class RaspberryPiSpeech:
             # Clean up
             os.unlink(script_file)
         except Exception as e:
-            print(f"❌ Festival failed: {e}")
+            print(f" Festival failed: {e}")
             raise
     
     def _speak_gtts(self, text):
@@ -197,27 +197,27 @@ class RaspberryPiSpeech:
             os.unlink(temp_file)
             
         except Exception as e:
-            print(f"❌ gTTS failed: {e}")
+            print(f" gTTS failed: {e}")
             raise
     
     def set_speed(self, speed_preset):
         """Set speech speed using predefined presets"""
         if speed_preset in self.speed_presets:
             self.rate = self.speed_presets[speed_preset]
-            print(f"🎤 Speech speed set to: {speed_preset} ({self.rate})")
+            print(f" Speech speed set to: {speed_preset} ({self.rate})")
             return True
         else:
-            print(f"❌ Invalid speed preset. Available: {list(self.speed_presets.keys())}")
+            print(f" Invalid speed preset. Available: {list(self.speed_presets.keys())}")
             return False
     
     def set_custom_rate(self, rate):
         """Set custom speech rate (150-600 recommended)"""
         if 150 <= rate <= 600:
             self.rate = rate
-            print(f"🎤 Custom speech rate set to: {rate}")
+            print(f" Custom speech rate set to: {rate}")
             return True
         else:
-            print(f"❌ Rate must be between 150-600. Current: {rate}")
+            print(f" Rate must be between 150-600. Current: {rate}")
             return False
     
     def get_current_speed(self):
@@ -241,7 +241,7 @@ class RaspberryPiSpeech:
         """Stop current speech (if possible)"""
         self.speaking = False
         self.set_led(False)
-        print("⏹️ Speech stopped")
+        print("⏹ Speech stopped")
     
     def get_available_voices(self):
         """Get list of available voices for current backend"""

@@ -17,7 +17,7 @@ from tools import RaspberryPiTools
 class RaspberryPiVoiceAssistant:
     def __init__(self):
         """Initialize the Raspberry Pi Voice Assistant."""
-        print("🤖 Initializing Roadie - Raspberry Pi Voice Assistant...")
+        print(" Initializing Roadie - Raspberry Pi Voice Assistant...")
         
         # Initialize components
         self.audio_handler = RaspberryPiAudio()
@@ -52,12 +52,12 @@ class RaspberryPiVoiceAssistant:
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
         
-        print("✅ Roadie initialization complete!")
+        print(" Roadie initialization complete!")
         self._print_system_info()
     
     def _signal_handler(self, signum, frame):
         """Handle shutdown signals gracefully."""
-        print(f"\n🛑 Received signal {signum}, shutting down gracefully...")
+        print(f"\n Received signal {signum}, shutting down gracefully...")
         self.running = False
         self.cleanup()
         sys.exit(0)
@@ -67,27 +67,27 @@ class RaspberryPiVoiceAssistant:
         try:
             system_status = self.tools_handler.get_system_status()
             if "error" not in system_status:
-                print(f"📊 System Status:")
+                print(f" System Status:")
                 print(f"   CPU: {system_status['cpu_percent']}%")
                 print(f"   Memory: {system_status['memory_percent']}%")
                 print(f"   Temperature: {system_status['temperature_celsius']}°C")
                 print(f"   Uptime: {system_status['uptime_hours']} hours")
             else:
-                print(f"⚠️ Could not get system status: {system_status['error']}")
+                print(f" Could not get system status: {system_status['error']}")
         except Exception as e:
-            print(f"⚠️ Error getting system info: {e}")
+            print(f" Error getting system info: {e}")
     
     def run(self):
         """Main application loop."""
-        print("🎙️ Rhodey is listening...")
-        print("💡 Primary trigger words (fastest):")
+        print(" Rhodey is listening...")
+        print(" Primary trigger words (fastest):")
         for i, trigger in enumerate(self.primary_triggers, 1):
             print(f"   {i}. '{trigger}'")
-        print("💡 Extended triggers:")
+        print(" Extended triggers:")
         for i, trigger in enumerate(self.extended_triggers, 1):
             print(f"   {i+len(self.primary_triggers)}. '{trigger}'")
-        print("🔧 Available commands: weather, time, timer, system status, etc.")
-        print("⏹️ Press Ctrl+C to exit")
+        print(" Available commands: weather, time, timer, system status, etc.")
+        print("⏹ Press Ctrl+C to exit")
         
         self.running = True
         
@@ -100,14 +100,14 @@ class RaspberryPiVoiceAssistant:
                     continue
                 
                 # Transcribe audio to text
-                print("🔄 Transcribing speech...")
+                print(" Transcribing speech...")
                 user_text = self.chat_handler.transcribe_audio(audio, self.samplerate)
                 
                 if not user_text:
-                    print("❌ Could not transcribe audio")
+                    print(" Could not transcribe audio")
                     continue
                 
-                print(f"📝 You said: {user_text}")
+                print(f" You said: {user_text}")
                 
                 # Optimized trigger word detection for Raspberry Pi 4
                 trigger_start_time = time.time()
@@ -141,7 +141,7 @@ class RaspberryPiVoiceAssistant:
                 self.trigger_detection_times.append(trigger_time)
                 
                 if detected_trigger:
-                    print(f"✨ Trigger word '{detected_trigger}' detected! Processing request...")
+                    print(f" Trigger word '{detected_trigger}' detected! Processing request...")
                     
                     # Remove the trigger word from the user text for cleaner processing
                     # Handle multi-word triggers properly
@@ -165,13 +165,13 @@ class RaspberryPiVoiceAssistant:
                         self._process_request("What can I help you with?")
                     self.interaction_count += 1
                 else:
-                    print("❌ Trigger word not found. Waiting for trigger words...")
+                    print(" Trigger word not found. Waiting for trigger words...")
                 
             except KeyboardInterrupt:
-                print("\n👋 Goodbye!")
+                print("\n Goodbye!")
                 break
             except Exception as e:
-                print(f"❌ Error in main loop: {e}")
+                print(f" Error in main loop: {e}")
                 continue
     
     def _process_request(self, user_text):
@@ -187,18 +187,18 @@ class RaspberryPiVoiceAssistant:
             response = self.chat_handler.get_chatgpt_response([{"role": "user", "content": user_text}], tools)
             
             if not response:
-                print("❌ Failed to get response from ChatGPT")
+                print(" Failed to get response from ChatGPT")
                 return
             
             # Handle function calls if present
             try:
                 # Debug: Check what attributes the response has
-                print(f"🔍 Response type: {type(response)}")
-                print(f"🔍 Response attributes: {dir(response)}")
+                print(f" Response type: {type(response)}")
+                print(f" Response attributes: {dir(response)}")
                 if hasattr(response, 'choices') and response.choices:
-                    print(f"🔍 First choice attributes: {dir(response.choices[0])}")
+                    print(f" First choice attributes: {dir(response.choices[0])}")
                     if hasattr(response.choices[0], 'message'):
-                        print(f"🔍 Message attributes: {dir(response.choices[0].message)}")
+                        print(f" Message attributes: {dir(response.choices[0].message)}")
                 
                 # Check for tool_calls in different possible locations
                 tool_calls = None
@@ -209,23 +209,23 @@ class RaspberryPiVoiceAssistant:
                         tool_calls = response.choices[0].message.tool_calls
                 
                 if tool_calls:
-                    print("🛠️ Executing function calls...")
+                    print(" Executing function calls...")
                     results = self.chat_handler.process_function_calls(response, self.tools_handler)
                     
                     # Get a new response incorporating the function results
                     # The function results are already added to conversation history by process_function_calls
                     response = self.chat_handler.get_chatgpt_response([], tools)
                 else:
-                    print("🔍 No tool calls detected in response")
+                    print(" No tool calls detected in response")
                     
             except Exception as e:
-                print(f"⚠️ Error checking for tool calls: {e}")
-                print(f"🔍 Response structure: {response}")
+                print(f" Error checking for tool calls: {e}")
+                print(f" Response structure: {response}")
             
             # Extract and speak the final response
             if response and response.choices:
                 assistant_message = response.choices[0].message.content
-                print(f"🤖 Rhodey: {assistant_message}")
+                print(f" Rhodey: {assistant_message}")
                 
                 # Speak the response
                 self.speech_handler.speak_text(assistant_message)
@@ -236,15 +236,15 @@ class RaspberryPiVoiceAssistant:
                     "content": assistant_message
                 })
             else:
-                print("❌ No response content received")
+                print(" No response content received")
                 
         except Exception as e:
-            print(f"❌ Error processing request: {e}")
+            print(f" Error processing request: {e}")
             self.speech_handler.speak_text("I encountered an error processing your request. Please try again.")
     
     def cleanup(self):
         """Clean up resources before shutdown."""
-        print("🧹 Cleaning up resources...")
+        print(" Cleaning up resources...")
         
         try:
             # Turn off all LEDs
@@ -263,7 +263,7 @@ class RaspberryPiVoiceAssistant:
             
             # Print final statistics
             runtime = time.time() - self.start_time
-            print(f"📊 Final Statistics:")
+            print(f" Final Statistics:")
             print(f"   Runtime: {runtime/3600:.1f} hours")
             print(f"   Interactions: {self.interaction_count}")
             print(f"   Average response time: {self.chat_handler.last_response_time:.2f}s" if self.chat_handler.last_response_time else "N/A")
@@ -280,17 +280,17 @@ class RaspberryPiVoiceAssistant:
                 print(f"     Total checks: {len(self.trigger_detection_times)}")
             
         except Exception as e:
-            print(f"⚠️ Error during cleanup: {e}")
+            print(f" Error during cleanup: {e}")
         
-        print("✅ Cleanup complete")
+        print(" Cleanup complete")
 
 def main():
     """Main entry point."""
     try:
         # Check if API key is available
         if not os.getenv("OPENAI_API_KEY"):
-            print("❌ OPENAI_API_KEY not found in environment variables")
-            print("💡 Please create a .env file with your OpenAI API key")
+            print(" OPENAI_API_KEY not found in environment variables")
+            print(" Please create a .env file with your OpenAI API key")
             return
         
         # Create and run the assistant
@@ -298,7 +298,7 @@ def main():
         assistant.run()
         
     except Exception as e:
-        print(f"❌ Fatal error: {e}")
+        print(f" Fatal error: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":

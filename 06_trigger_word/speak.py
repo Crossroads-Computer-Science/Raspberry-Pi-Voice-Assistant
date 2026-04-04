@@ -15,9 +15,9 @@ def speak_text(text, voice="Alex", rate=200):
     if system == "Darwin":  # macOS
         try:
             subprocess.run(["say", "-v", voice, "-r", str(rate), text], check=True)
-            print("🔊 Speaking complete.")
+            print(" Speaking complete.")
         except subprocess.CalledProcessError as e:
-            print(f"❌ Speech synthesis failed: {e}")
+            print(f" Speech synthesis failed: {e}")
 
     elif system == "Windows":
         try:
@@ -26,23 +26,23 @@ def speak_text(text, voice="Alex", rate=200):
             engine.setProperty("rate", rate)
             engine.say(text)
             engine.runAndWait()
-            print("🔊 Speaking complete.")
+            print(" Speaking complete.")
         except ImportError:
-            print("❌ pyttsx3 not found. Install it with: pip install pyttsx3")
+            print(" pyttsx3 not found. Install it with: pip install pyttsx3")
             print(f"   (Jarvis would have said: {text})")
         except Exception as e:
-            print(f"❌ Speech synthesis failed: {e}")
+            print(f" Speech synthesis failed: {e}")
 
     elif system == "Linux":
         try:
             subprocess.run(["espeak", text], check=True)
-            print("🔊 Speaking complete.")
+            print(" Speaking complete.")
         except FileNotFoundError:
-            print("❌ espeak not found. Install it with: sudo apt install espeak")
+            print(" espeak not found. Install it with: sudo apt install espeak")
             print(f"   (Jarvis would have said: {text})")
         except subprocess.CalledProcessError as e:
-            print(f"❌ Speech synthesis failed: {e}")
+            print(f" Speech synthesis failed: {e}")
 
     else:
-        print(f"❌ Text-to-speech not supported on {system}.")
+        print(f" Text-to-speech not supported on {system}.")
         print(f"   (Jarvis would have said: {text})")

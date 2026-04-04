@@ -5,16 +5,16 @@ import numpy as np
 SAMPLERATE = 16000  # Samples per second
 
 def main():
-    print("🎙 Voice Assistant – Speech Detection")
+    print("Voice Assistant – Speech Detection")
     print("Speak a sentence, then pause...")
 
     audio = detect_speech(samplerate=SAMPLERATE)
 
-    print("🛑 Detected silence. Audio captured.")
+    print("Detected silence. Audio captured.")
     print(f"Length: {len(audio)} samples")
 
     # Optional playback
-    print("🔁 Playing back the captured speech...")
+    print("Playing back the captured speech...")
     sd.play(audio, samplerate=SAMPLERATE)
     sd.wait()
 

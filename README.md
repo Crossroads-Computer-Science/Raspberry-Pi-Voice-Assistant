@@ -1,29 +1,29 @@
-# 🗣️ Raspberry Pi Voice Assistant with OpenAI
+#  Raspberry Pi Voice Assistant with OpenAI
 
 This project turns a Raspberry Pi into a sophisticated voice-powered assistant using OpenAI's latest AI models. It's designed as a **progressive learning experience** that builds from basic audio recording to a full-featured AI assistant with function calling capabilities.
 
 ---
 
-## 🎯 **Learning Path for Students**
+##  **Learning Path for Students**
 
 This project is structured as a **step-by-step journey** that teaches you voice assistant development from the ground up. Each folder builds upon the previous one, adding new capabilities and complexity.
 
-### 📚 **Progressive Learning Structure**
+###  **Progressive Learning Structure**
 
 | Folder | Topic | What You'll Learn | Difficulty |
 |--------|-------|-------------------|------------|
-| **01_record_playback** | Audio Basics | Recording and playing audio files | 🟢 Beginner |
-| **02_detect_speech** | Voice Activity Detection | Detecting when someone is speaking | 🟢 Beginner |
-| **03_transcribe** | Speech-to-Text | Converting speech to text with OpenAI Whisper | 🟡 Intermediate |
-| **04_chat_response** | AI Conversations | Getting responses from ChatGPT | 🟡 Intermediate |
-| **05_speak_output** | Text-to-Speech | Converting AI responses back to speech | 🟡 Intermediate |
-| **06_trigger_word** | Wake Word Detection | Activating the assistant with "Jarvis" | 🟠 Advanced |
-| **07_function_calling** | AI Tools | Giving the AI access to real-world functions | 🟠 Advanced |
-| **08_raspberry_pi_production** | Production Ready | Full-featured assistant with GPIO and monitoring | 🔴 Expert |
+| **01_record_playback** | Audio Basics | Recording and playing audio files |  Beginner |
+| **02_detect_speech** | Voice Activity Detection | Detecting when someone is speaking |  Beginner |
+| **03_transcribe** | Speech-to-Text | Converting speech to text with OpenAI Whisper |  Intermediate |
+| **04_chat_response** | AI Conversations | Getting responses from ChatGPT |  Intermediate |
+| **05_speak_output** | Text-to-Speech | Converting AI responses back to speech |  Intermediate |
+| **06_trigger_word** | Wake Word Detection | Activating the assistant with "Jarvis" |  Advanced |
+| **07_function_calling** | AI Tools | Giving the AI access to real-world functions |  Advanced |
+| **08_raspberry_pi_production** | Production Ready | Full-featured assistant with GPIO and monitoring |  Expert |
 
 ---
 
-## 🚀 **Getting Started**
+##  **Getting Started**
 
 ### **Prerequisites**
 - A computer with a microphone and speakers (macOS, Windows, or Linux/Raspberry Pi)
@@ -55,9 +55,9 @@ python main.py
 
 ---
 
-## 📖 **Step-by-Step Learning Guide**
+##  **Step-by-Step Learning Guide**
 
-### **Step 1: Audio Fundamentals** 🎵
+### **Step 1: Audio Fundamentals** 
 **Start with:** `01_record_playback/`
 - Learn how to record audio from microphone
 - Understand audio formats and sampling rates
@@ -66,7 +66,7 @@ python main.py
 
 **Try this:** Record yourself saying "Hello Raspberry Pi" and play it back!
 
-### **Step 2: Speech Detection** 🎤
+### **Step 2: Speech Detection** 
 **Move to:** `02_detect_speech/`
 - Implement Voice Activity Detection (VAD)
 - Learn to detect when someone starts/stops speaking
@@ -75,7 +75,7 @@ python main.py
 
 **Try this:** Speak different phrases and see how the system detects speech boundaries!
 
-### **Step 3: AI Transcription** 📝
+### **Step 3: AI Transcription** 
 **Move to:** `03_transcribe/`
 - Integrate OpenAI Whisper API
 - Convert speech to text in real-time
@@ -84,7 +84,7 @@ python main.py
 
 **Try this:** Speak complex sentences and see how accurately they're transcribed!
 
-### **Step 4: AI Conversations** 💬
+### **Step 4: AI Conversations** 
 **Move to:** `04_chat_response/`
 - Connect to ChatGPT API
 - Generate intelligent responses to user input
@@ -93,7 +93,7 @@ python main.py
 
 **Try this:** Ask the AI questions and see how it responds!
 
-### **Step 5: Voice Output** 🔊
+### **Step 5: Voice Output** 
 **Move to:** `05_speak_output/`
 - Implement text-to-speech synthesis
 - Choose from multiple TTS backends
@@ -102,7 +102,7 @@ python main.py
 
 **Try this:** Have the AI read back its responses in natural speech!
 
-### **Step 6: Wake Word System** 🎯
+### **Step 6: Wake Word System** 
 **Move to:** `06_trigger_word/`
 - Implement "Jarvis" wake word detection
 - Create a hands-free activation system
@@ -111,7 +111,7 @@ python main.py
 
 **Try this:** Say "Jarvis" followed by a question - no buttons needed!
 
-### **Step 7: Function Calling** 🛠️
+### **Step 7: Function Calling** 
 **Move to:** `07_function_calling/`
 - Give your AI access to real-world functions
 - Implement weather, time, and timer capabilities
@@ -120,7 +120,7 @@ python main.py
 
 **Try this:** Ask "Jarvis, what's the weather like?" and see it call real APIs!
 
-### **Step 8: Production Deployment** 🚀
+### **Step 8: Production Deployment** 
 **Move to:** `08_raspberry_pi_production/`
 - Add GPIO LED indicators
 - Implement system monitoring
@@ -131,7 +131,7 @@ python main.py
 
 ---
 
-## 🔧 **Working with Each Module**
+##  **Working with Each Module**
 
 ### **For Each Folder:**
 1. **Navigate to the folder:** `cd 0X_folder_name/`
@@ -150,7 +150,7 @@ See [SETUP.md](./SETUP.md) for detailed instructions, including Windows steps.
 
 ---
 
-## 🎓 **Learning Objectives**
+##  **Learning Objectives**
 
 By completing this project, you'll understand:
 
@@ -163,7 +163,7 @@ By completing this project, you'll understand:
 
 ---
 
-## 🐛 **Common Issues & Solutions**
+##  **Common Issues & Solutions**
 
 ### **Audio Problems**
 ```bash
@@ -190,20 +190,20 @@ See [SETUP.md](./SETUP.md) for more detailed troubleshooting.
 
 ---
 
-## 🎯 **Project Milestones**
+##  **Project Milestones**
 
-- **✅ Milestone 1:** Basic audio recording and playback
-- **✅ Milestone 2:** Automatic speech detection
-- **✅ Milestone 3:** AI-powered speech transcription
-- **✅ Milestone 4:** Intelligent conversation capabilities
-- **✅ Milestone 5:** Natural voice output
-- **✅ Milestone 6:** Hands-free wake word system
-- **✅ Milestone 7:** Real-world function integration
-- **✅ Milestone 8:** Production-ready deployment
+- ** Milestone 1:** Basic audio recording and playback
+- ** Milestone 2:** Automatic speech detection
+- ** Milestone 3:** AI-powered speech transcription
+- ** Milestone 4:** Intelligent conversation capabilities
+- ** Milestone 5:** Natural voice output
+- ** Milestone 6:** Hands-free wake word system
+- ** Milestone 7:** Real-world function integration
+- ** Milestone 8:** Production-ready deployment
 
 ---
 
-## 🤝 **Getting Help**
+##  **Getting Help**
 
 - **Check the code:** Each module has detailed comments
 - **Review requirements:** Ensure all dependencies are installed
@@ -212,13 +212,13 @@ See [SETUP.md](./SETUP.md) for more detailed troubleshooting.
 
 ---
 
-## 🙏 **Credits & Inspiration**
+##  **Credits & Inspiration**
 
 This project was inspired by the excellent tutorial by the [Make It Think](https://www.youtube.com/@MakeItThink) YouTube channel. Watch the original video here: [Voice Assistant on Raspberry Pi](https://www.youtube.com/watch?v=VzSrSiu0syU&ab_channel=MakeItThink).
 
 ---
 
-## 🎉 **Next Steps**
+##  **Next Steps**
 
 After completing this project, consider:
 - **Custom Wake Words:** Train your own wake word detection
@@ -229,4 +229,4 @@ After completing this project, consider:
 
 ---
 
-**Happy coding! Remember: Every expert was once a beginner. Take it one step at a time! 🚀**
+**Happy coding! Remember: Every expert was once a beginner. Take it one step at a time! **

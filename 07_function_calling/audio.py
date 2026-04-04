@@ -29,7 +29,7 @@ def detect_speech(samplerate=16000, frame_duration=30):
     
     # Open audio input stream
     with sd.InputStream(samplerate=samplerate, channels=1, dtype='int16') as stream:
-        print("🎤 Listening...")
+        print(" Listening...")
         
         while True:
             # Read one frame of audio

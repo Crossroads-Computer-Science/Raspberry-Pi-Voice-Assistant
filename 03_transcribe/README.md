@@ -10,7 +10,7 @@ Welcome to Module 3! Now that your system can detect when someone is speaking, l
 
 ---
 
-## 🎯 **What You'll Learn**
+##  **What You'll Learn**
 
 - **Speech-to-Text (STT)**: Converting spoken words into written text
 - **AI API Integration**: Working with OpenAI's powerful Whisper model
@@ -20,7 +20,7 @@ Welcome to Module 3! Now that your system can detect when someone is speaking, l
 
 ---
 
-## 🔍 **Understanding the Code**
+##  **Understanding the Code**
 
 ### **Key Concepts**
 
@@ -59,7 +59,7 @@ return response.text
 
 ---
 
-## 📁 **File Structure**
+##  **File Structure**
 
 ```
 03_transcribe/
@@ -72,7 +72,7 @@ return response.text
 
 ---
 
-## 🔧 **How It Works**
+##  **How It Works**
 
 ### **Step 1: Record Audio**
 ```python
@@ -118,7 +118,7 @@ response = client.audio.transcriptions.create(
 
 # 2. Extract the transcribed text
 transcription = response.text
-print(f"📝 Transcription: {transcription}")
+print(f" Transcription: {transcription}")
 ```
 
 **What happens:**
@@ -129,7 +129,7 @@ print(f"📝 Transcription: {transcription}")
 
 ---
 
-## 🎮 **Running the Code**
+##  **Running the Code**
 
 ### **1. Navigate to the folder**
 ```bash
@@ -153,14 +153,14 @@ python main.py
 ```
 
 ### **5. Test the magic!**
-- **"🎙️ Speak now..."** - Get ready to speak
-- **"🛑 Detected silence..."** - System is processing your speech
-- **"📝 Transcription: [your words]"** - See what Whisper understood!
-- **"🔁 Playing back..."** - Hear your original audio
+- **" Speak now..."** - Get ready to speak
+- **" Detected silence..."** - System is processing your speech
+- **" Transcription: [your words]"** - See what Whisper understood!
+- **" Playing back..."** - Hear your original audio
 
 ---
 
-## 🧪 **Experiments to Try**
+##  **Experiments to Try**
 
 ### **Basic Speech Testing**
 1. **Clear speech**: Say "Hello, this is a test" clearly
@@ -180,25 +180,25 @@ python main.py
 
 ---
 
-## 🔍 **Understanding the Output**
+##  **Understanding the Output**
 
 ### **What You'll See**
 ```
-🎙️ Speak now. The assistant will detect your speech and transcribe it.
-🛑 Detected silence, sending audio to OpenAI Whisper for transcription...
-📝 Transcription: Hello, this is a test of the speech recognition system
-🔁 Playing back the captured speech...
+ Speak now. The assistant will detect your speech and transcribe it.
+ Detected silence, sending audio to OpenAI Whisper for transcription...
+ Transcription: Hello, this is a test of the speech recognition system
+ Playing back the captured speech...
 ```
 
 ### **What Each Line Means**
-- **🎙️**: System is ready to record
-- **🛑**: Speech detected and being sent to AI
-- **📝**: Here's what Whisper understood you said
-- **🔁**: Playing back your original audio for comparison
+- ****: System is ready to record
+- ****: Speech detected and being sent to AI
+- ****: Here's what Whisper understood you said
+- ****: Playing back your original audio for comparison
 
 ---
 
-## 🐛 **Common Issues & Solutions**
+##  **Common Issues & Solutions**
 
 ### **"API key not found"**
 ```bash
@@ -230,7 +230,7 @@ ls -la /dev/snd/
 
 ---
 
-## 🤔 **Wait, How Does Speech Recognition Actually Work?**
+##  **Wait, How Does Speech Recognition Actually Work?**
 
 Great question! Let me explain this in a way that makes sense without getting too technical.
 
@@ -267,7 +267,7 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 💡 **Pro Tips**
+##  **Pro Tips**
 
 1. **Start with clear speech**: Good audio input = better transcription
 2. **Test different environments**: See how background noise affects accuracy
@@ -277,16 +277,16 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 🎓 **Learning Check**
+##  **Learning Check**
 
 **Before moving to Module 4, you should be able to:**
-- ✅ Explain what speech-to-text is and why it's useful
-- ✅ Understand how the Whisper API works
-- ✅ Successfully transcribe your own speech
-- ✅ Handle common transcription issues
-- ✅ Explain the audio processing pipeline
-- ✅ Understand the difference between audio data and audio files
+-  Explain what speech-to-text is and why it's useful
+-  Understand how the Whisper API works
+-  Successfully transcribe your own speech
+-  Handle common transcription issues
+-  Explain the audio processing pipeline
+-  Understand the difference between audio data and audio files
 
 ---
 
-**🎉 Amazing! You've now mastered speech recognition. Your computer can understand what you're saying - this is the foundation for having real conversations with AI!**
+** Amazing! You've now mastered speech recognition. Your computer can understand what you're saying - this is the foundation for having real conversations with AI!**

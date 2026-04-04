@@ -13,7 +13,7 @@ def transcribe_audio(audio: np.ndarray, samplerate: int) -> str:
     """
     with tempfile.NamedTemporaryFile(suffix=".wav") as temp_wav:
         wav.write(temp_wav.name, samplerate, audio)
-        temp_wav.seek(0)
+        
         with open(temp_wav.name, "rb") as audio_file:
             response = client.audio.transcriptions.create(
                 model="whisper-1", # Options are 'gpt-4o-transcribe', 'gpt-4o-mini-transcribe', and 'whisper-1'

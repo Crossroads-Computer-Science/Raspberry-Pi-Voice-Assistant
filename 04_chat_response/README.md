@@ -10,7 +10,7 @@ Welcome to Module 4! Now that your system can understand what you're saying, let
 
 ---
 
-## 🎯 **What You'll Learn**
+##  **What You'll Learn**
 
 - **AI Conversation Systems**: How to create meaningful dialogues with AI
 - **ChatGPT API Integration**: Working with OpenAI's powerful language model
@@ -20,7 +20,7 @@ Welcome to Module 4! Now that your system can understand what you're saying, let
 
 ---
 
-## 🔍 **Understanding the Code**
+##  **Understanding the Code**
 
 ### **Key Concepts**
 
@@ -61,7 +61,7 @@ messages.append({"role": "assistant", "content": response})
 
 ---
 
-## 📁 **File Structure**
+##  **File Structure**
 
 ```
 04_chat_response/
@@ -74,7 +74,7 @@ messages.append({"role": "assistant", "content": response})
 
 ---
 
-## 🔧 **How It Works**
+##  **How It Works**
 
 ### **Step 1: Set Up the AI's Personality**
 ```python
@@ -102,7 +102,7 @@ audio = detect_speech(samplerate=SAMPLERATE)
 
 # 2. Convert speech to text
 user_text = transcribe_audio(audio, samplerate=SAMPLERATE)
-print(f"📝 You said: {user_text}")
+print(f" You said: {user_text}")
 
 # 3. Add user's message to conversation history
 messages.append({"role": "user", "content": user_text})
@@ -119,7 +119,7 @@ messages.append({"role": "user", "content": user_text})
 response = get_chatgpt_response(messages)
 
 # 2. Display the response
-print(f"🤖 Jarvis: {response}")
+print(f" Jarvis: {response}")
 
 # 3. Add AI's response to conversation history
 messages.append({"role": "assistant", "content": response})
@@ -132,7 +132,7 @@ messages.append({"role": "assistant", "content": response})
 
 ---
 
-## 🎮 **Running the Code**
+##  **Running the Code**
 
 ### **1. Navigate to the folder**
 ```bash
@@ -156,14 +156,14 @@ python main.py
 ```
 
 ### **5. Have a conversation!**
-- **"🎙️ Speak now..."** - Get ready to talk to Jarvis
-- **"📝 You said: [your words]"** - See what the system understood
-- **"🤖 Jarvis: [AI response]"** - Get Jarvis's sarcastic reply!
+- **" Speak now..."** - Get ready to talk to Jarvis
+- **" You said: [your words]"** - See what the system understood
+- **" Jarvis: [AI response]"** - Get Jarvis's sarcastic reply!
 - **Keep talking**: The conversation continues and Jarvis remembers everything
 
 ---
 
-## 🧪 **Experiments to Try**
+##  **Experiments to Try**
 
 ### **Basic Conversation Testing**
 1. **Simple questions**: "What's the weather like?" or "How are you today?"
@@ -182,28 +182,28 @@ python main.py
 
 ---
 
-## 🔍 **Understanding the Output**
+##  **Understanding the Output**
 
 ### **What You'll See**
 ```
-🎙️ Speak now. The assistant will detect your speech, transcribe it, and respond.
-🛑 Detected silence, sending audio to OpenAI Whisper for transcription...
-📝 You said: Hello Jarvis, how are you today?
-🤖 Jarvis: Well, well, well! Look who decided to grace me with their presence! 
+ Speak now. The assistant will detect your speech, transcribe it, and respond.
+ Detected silence, sending audio to OpenAI Whisper for transcription...
+ You said: Hello Jarvis, how are you today?
+ Jarvis: Well, well, well! Look who decided to grace me with their presence! 
 I'm doing splendidly, thank you for asking. Though I must say, your timing 
 is impeccable - I was just sitting here being incredibly intelligent and 
 slightly sarcastic, as per my programming.
 ```
 
 ### **What Each Line Means**
-- **🎙️**: System is ready for conversation
-- **🛑**: Processing your speech
-- **📝**: Here's what Jarvis understood you said
-- **🤖**: Here's Jarvis's personality-driven response
+- ****: System is ready for conversation
+- ****: Processing your speech
+- ****: Here's what Jarvis understood you said
+- ****: Here's Jarvis's personality-driven response
 
 ---
 
-## 🐛 **Common Issues & Solutions**
+##  **Common Issues & Solutions**
 
 ### **"API key not found"**
 ```bash
@@ -229,7 +229,7 @@ echo "OPENAI_API_KEY=your_key_here" > .env
 
 ---
 
-## 🤔 **Wait, How Do AI Conversations Actually Work?**
+##  **Wait, How Do AI Conversations Actually Work?**
 
 Great question! Let me explain this in a way that makes sense without getting too technical.
 
@@ -266,7 +266,7 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 💡 **Pro Tips**
+##  **Pro Tips**
 
 1. **Experiment with personalities**: Try different system messages to see how they change Jarvis
 2. **Test conversation flow**: See how well Jarvis maintains context over multiple exchanges
@@ -276,16 +276,16 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 🎓 **Learning Check**
+##  **Learning Check**
 
 **Before moving to Module 5, you should be able to:**
-- ✅ Explain how AI conversations work and why they're different from simple Q&A
-- ✅ Understand the role of system messages in defining AI personality
-- ✅ Successfully have a conversation with Jarvis
-- ✅ Explain how conversation context is maintained
-- ✅ Customize the AI's personality and behavior
-- ✅ Handle common conversation and API issues
+-  Explain how AI conversations work and why they're different from simple Q&A
+-  Understand the role of system messages in defining AI personality
+-  Successfully have a conversation with Jarvis
+-  Explain how conversation context is maintained
+-  Customize the AI's personality and behavior
+-  Handle common conversation and API issues
 
 ---
 
-**🎉 Fantastic! You've now mastered AI conversations. Your voice assistant can understand what you say AND respond intelligently - this is a real AI companion, not just a transcription tool!**
+** Fantastic! You've now mastered AI conversations. Your voice assistant can understand what you say AND respond intelligently - this is a real AI companion, not just a transcription tool!**

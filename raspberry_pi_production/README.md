@@ -1,30 +1,30 @@
-# 🤖 Roadie - Raspberry Pi Voice Assistant (Production)
+#  Roadie - Raspberry Pi Voice Assistant (Production)
 
 A production-ready, fully-featured voice assistant optimized for Raspberry Pi with GPIO LED indicators, system monitoring, and comprehensive function calling capabilities.
 
-## ✨ Features
+##  Features
 
-### 🎤 Core Voice Assistant
+###  Core Voice Assistant
 - **Wake Word Detection**: Say "Roadie" to activate
 - **Speech-to-Text**: OpenAI Whisper API integration
 - **Text-to-Speech**: Multiple TTS backends with fallbacks
 - **Natural Language Processing**: GPT-4o-mini for intelligent responses
 
-### 🔧 Function Calling & Tools
+###  Function Calling & Tools
 - **Weather Information**: Get current weather by coordinates
 - **Timer Management**: Set, monitor, and cancel timers
 - **System Monitoring**: CPU, memory, temperature, uptime
 - **Time & Date**: Current time, date, and timezone
 - **System Commands**: Safe execution of system commands
 
-### 🎯 Raspberry Pi Optimizations
+###  Raspberry Pi Optimizations
 - **GPIO LED Indicators**: Visual feedback for different states
 - **Audio Fallbacks**: Multiple audio backends for reliability
 - **Performance Monitoring**: System health and resource usage
 - **Graceful Shutdown**: Signal handling and resource cleanup
 - **Temperature Monitoring**: CPU temperature tracking
 
-### 💡 Hardware Features
+###  Hardware Features
 - **Status LED (GPIO 22)**: System health indicator
 - **Listening LED (GPIO 17)**: Audio input active
 - **Processing LED (GPIO 18)**: AI processing active
@@ -33,7 +33,7 @@ A production-ready, fully-featured voice assistant optimized for Raspberry Pi wi
 - **Weather LED (GPIO 24)**: Weather API active
 - **Trigger Button (GPIO 25)**: Manual activation (optional)
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Prerequisites
 ```bash
@@ -74,7 +74,7 @@ source venv/bin/activate
 python main.py
 ```
 
-## 🔌 GPIO Pin Configuration
+##  GPIO Pin Configuration
 
 | Pin | Function | Description |
 |-----|----------|-------------|
@@ -86,7 +86,7 @@ python main.py
 | 25  | Trigger Button | Manual activation (optional) |
 | 27  | Speaking LED | Blue - Speech output |
 
-## 🎯 Usage Examples
+##  Usage Examples
 
 ### Basic Commands
 - **"Roadie, what time is it?"** - Get current time
@@ -100,7 +100,7 @@ python main.py
 - **Weather Data**: Detailed weather with multiple units
 - **Function Chaining**: Complex multi-step requests
 
-## ⚙️ Configuration
+##  Configuration
 
 ### Environment Variables
 Create a `.env` file in the project directory:
@@ -121,7 +121,7 @@ Modify the GPIO pins in the respective modules:
 - `tools.py` - System status LEDs
 - `main.py` - Main application
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -181,7 +181,7 @@ print(f"Debug: Audio length: {len(audio)}")
 print(f"Debug: Transcription: {user_text}")
 ```
 
-## 📊 Performance Monitoring
+##  Performance Monitoring
 
 The assistant automatically monitors:
 - **Response Times**: API call performance
@@ -189,14 +189,14 @@ The assistant automatically monitors:
 - **Interaction Count**: Total conversations
 - **Runtime Statistics**: Uptime and usage
 
-## 🔒 Security Features
+##  Security Features
 
 - **Command Whitelisting**: Only safe system commands allowed
 - **API Key Protection**: Environment variable storage
 - **Resource Limits**: Timeout protection for external calls
 - **Error Handling**: Graceful failure recovery
 
-## 🚀 Production Deployment
+##  Production Deployment
 
 ### Systemd Service
 Create `/etc/systemd/system/roadie.service`:
@@ -234,7 +234,7 @@ sudo journalctl -u roadie -f
 sudo logrotate /etc/logrotate.d/roadie
 ```
 
-## 🔄 Updates & Maintenance
+##  Updates & Maintenance
 
 ### Regular Updates
 ```bash
@@ -256,7 +256,7 @@ cp .env .env.backup
 cp -r venv venv.backup
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 This production version is designed for:
 - **Educational Use**: Learn voice assistant development
@@ -264,11 +264,11 @@ This production version is designed for:
 - **Prototyping**: Test voice interfaces
 - **Production Deployment**: Stable, reliable operation
 
-## 📝 License
+##  License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - OpenAI for Whisper and GPT APIs
 - Raspberry Pi Foundation for hardware platform
@@ -276,4 +276,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-**Happy coding with your Raspberry Pi Voice Assistant! 🎉**
+**Happy coding with your Raspberry Pi Voice Assistant! **

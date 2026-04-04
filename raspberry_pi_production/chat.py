@@ -69,7 +69,7 @@ class RaspberryPiChat:
                     return response.text.strip()
                     
         except Exception as e:
-            print(f"❌ Transcription error: {e}")
+            print(f" Transcription error: {e}")
             return ""
     
     def get_chatgpt_response(self, messages, tools=None, use_function_calling=True):
@@ -101,15 +101,15 @@ class RaspberryPiChat:
                 try:
                     api_params["tools"] = tools
                     api_params["tool_choice"] = "auto"
-                    print(f"🔧 Function calling enabled with {len(tools)} tools")
+                    print(f" Function calling enabled with {len(tools)} tools")
                 except Exception as e:
-                    print(f"⚠️ Function calling setup failed: {e}")
+                    print(f" Function calling setup failed: {e}")
                     # Remove tools if they cause issues
                     api_params.pop("tools", None)
                     api_params.pop("tool_choice", None)
-                    print("🔄 Falling back to regular chat without function calling")
+                    print(" Falling back to regular chat without function calling")
             else:
-                print(f"🔧 Function calling disabled or no tools provided")
+                print(f" Function calling disabled or no tools provided")
             
             # Make API call
             start_time = time.time()
@@ -117,16 +117,16 @@ class RaspberryPiChat:
             self.last_response_time = time.time() - start_time
             
             # Debug: Print response structure
-            print(f"🔍 API Response type: {type(response)}")
-            print(f"🔍 API Response attributes: {dir(response)}")
+            print(f" API Response type: {type(response)}")
+            print(f" API Response attributes: {dir(response)}")
             if hasattr(response, 'choices') and response.choices:
-                print(f"🔍 First choice type: {type(response.choices[0])}")
-                print(f"🔍 First choice attributes: {dir(response.choices[0])}")
+                print(f" First choice type: {type(response.choices[0])}")
+                print(f" First choice attributes: {dir(response.choices[0])}")
                 if hasattr(response.choices[0], 'message'):
-                    print(f"🔍 Message type: {type(response.choices[0].message)}")
-                    print(f"🔍 Message attributes: {dir(response.choices[0].message)}")
+                    print(f" Message type: {type(response.choices[0].message)}")
+                    print(f" Message attributes: {dir(response.choices[0].message)}")
                     if hasattr(response.choices[0].message, 'tool_calls'):
-                        print(f"🔍 Tool calls found: {response.choices[0].message.tool_calls}")
+                        print(f" Tool calls found: {response.choices[0].message.tool_calls}")
             
             # Add response to conversation history
             self.conversation_history.append(response.choices[0].message)
@@ -134,7 +134,7 @@ class RaspberryPiChat:
             return response
             
         except Exception as e:
-            print(f"❌ ChatGPT API error: {e}")
+            print(f" ChatGPT API error: {e}")
             return None
     
     def process_function_calls(self, response, tools_instance):
@@ -157,18 +157,18 @@ class RaspberryPiChat:
                 tool_calls = response.choices[0].message.tool_calls
         
         if not tool_calls:
-            print("🔍 No tool calls found in response")
+            print(" No tool calls found in response")
             return []
         
         results = []
-        print("🛠️ Executing function calls...")
+        print(" Executing function calls...")
         
         for tool_call in tool_calls:
             try:
                 function_name = tool_call.function.name
                 function_args = json.loads(tool_call.function.arguments)
                 
-                print(f"🔧 Calling {function_name} with args: {function_args}")
+                print(f" Calling {function_name} with args: {function_args}")
                 
                 # Execute the appropriate function
                 if function_name == "get_weather":
@@ -234,7 +234,7 @@ class RaspberryPiChat:
         self.conversation_history = [self.system_message]
         self.function_calls = []
         self.last_response_time = None
-        print("🧹 Conversation history cleared")
+        print(" Conversation history cleared")
     
     def add_user_message(self, content: str):
         """Add a user message to the conversation."""

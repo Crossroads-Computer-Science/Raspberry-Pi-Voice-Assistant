@@ -10,7 +10,7 @@ Welcome to your first step! This module teaches you the **fundamentals of audio 
 
 ---
 
-## 🎯 **What You'll Learn**
+##  **What You'll Learn**
 
 - **Audio Input/Output**: How to record from a microphone and play through speakers
 - **Audio Formats**: Understanding sample rates, channels, and data types
@@ -20,7 +20,7 @@ Welcome to your first step! This module teaches you the **fundamentals of audio 
 
 ---
 
-## 🔍 **Understanding the Code**
+##  **Understanding the Code**
 
 ### **Key Concepts**
 
@@ -50,7 +50,7 @@ channels=1  # Mono audio (single channel)
 
 ---
 
-## 📁 **File Structure**
+##  **File Structure**
 
 ```
 01_record_playback/
@@ -62,7 +62,7 @@ channels=1  # Mono audio (single channel)
 
 ---
 
-## 🔧 **How It Works**
+##  **How It Works**
 
 ### **Step 1: Audio Recording**
 ```python
@@ -99,7 +99,7 @@ sd.wait()
 
 ---
 
-## 🎮 **Running the Code**
+##  **Running the Code**
 
 ### **1. Navigate to the folder**
 ```bash
@@ -124,7 +124,7 @@ python main.py
 
 ---
 
-## 🧪 **Experiments to Try**
+##  **Experiments to Try**
 
 ### **Basic Experiments**
 1. **Record different sounds**: Speech, music, ambient noise
@@ -143,30 +143,30 @@ python main.py
 
 ---
 
-## 🔍 **Understanding the Output**
+##  **Understanding the Output**
 
 ### **What You'll See**
 ```
-🎙️ Audio Recording and Playback Demo
+ Audio Recording and Playback Demo
 Press Enter to start recording...
 Recording... (speak now)
 Press Enter to stop recording...
-✅ Recording complete! Audio length: 3.2 seconds
-🔁 Playing back the recorded speech...
-🎵 Playback complete!
+ Recording complete! Audio length: 3.2 seconds
+ Playing back the recorded speech...
+ Playback complete!
 ```
 
 ### **What Each Line Means**
-- **🎙️**: Program started successfully
+- ****: Program started successfully
 - **Recording...**: Audio is being captured
-- **✅**: Recording completed successfully
+- ****: Recording completed successfully
 - **Audio length**: How long your recording is
-- **🔁**: Playing back your audio
-- **🎵**: Playback completed
+- ****: Playing back your audio
+- ****: Playback completed
 
 ---
 
-## 🐛 **Common Issues & Solutions**
+##  **Common Issues & Solutions**
 
 ### **"No Default Input Device"**
 ```bash
@@ -193,7 +193,7 @@ speaker-test -t wav -c 2
 
 ---
 
-## 🤔 **Wait, How Does Audio Recording Actually Work?**
+##  **Wait, How Does Audio Recording Actually Work?**
 
 Great question! Let me explain this in a way that makes sense without getting too technical.
 
@@ -232,7 +232,7 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 💡 **Pro Tips**
+##  **Pro Tips**
 
 1. **Start simple**: Get basic recording working before adding features
 2. **Test incrementally**: Verify each step works before moving on
@@ -242,15 +242,15 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 🎓 **Learning Check**
+##  **Learning Check**
 
 **Before moving to Module 2, you should be able to:**
-- ✅ Record audio from your microphone
-- ✅ Play back recorded audio through speakers
-- ✅ Understand what sample rate and bit depth mean
-- ✅ Explain the basic audio recording/playback pipeline
-- ✅ Troubleshoot common audio issues
+-  Record audio from your microphone
+-  Play back recorded audio through speakers
+-  Understand what sample rate and bit depth mean
+-  Explain the basic audio recording/playback pipeline
+-  Troubleshoot common audio issues
 
 ---
 
-**🎉 Congratulations! You've taken your first step toward building an AI voice assistant. The audio skills you learn here will be the foundation for everything that follows!**
+** Congratulations! You've taken your first step toward building an AI voice assistant. The audio skills you learn here will be the foundation for everything that follows!**

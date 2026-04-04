@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 if not os.getenv("OPENAI_API_KEY"):
-    print("❌ OpenAI API key not found!")
+    print(" OpenAI API key not found!")
     print("   Create a .env file in this folder containing:")
     print("   OPENAI_API_KEY=your-key-here")
     print("   Get a key at: https://platform.openai.com/api-keys")
@@ -18,7 +18,7 @@ from speak import speak_text
 SAMPLERATE = 16000
 
 def main():
-    print("🎙️ Speak now. Jarvis is listening...")
+    print(" Speak now. Jarvis is listening...")
 
     messages = [
         {
@@ -31,15 +31,15 @@ def main():
     ]
 
     audio = detect_speech(samplerate=SAMPLERATE)
-    print("🛑 Silence detected. Transcribing...")
+    print(" Silence detected. Transcribing...")
 
     user_text = transcribe_audio(audio, samplerate=SAMPLERATE)
-    print(f"📝 You said: {user_text}")
+    print(f" You said: {user_text}")
     messages.append({"role": "user", "content": user_text})
 
     response = get_chatgpt_response(messages)
     messages.append({"role": "assistant", "content": response})
-    print(f"🤖 Jarvis: {response}")
+    print(f" Jarvis: {response}")
 
     speak_text(response)
 

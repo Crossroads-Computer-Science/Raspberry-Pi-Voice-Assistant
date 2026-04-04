@@ -10,7 +10,7 @@ Welcome to Module 5! Now that Jarvis can have intelligent conversations with you
 
 ---
 
-## 🎯 **What You'll Learn**
+##  **What You'll Learn**
 
 - **Text-to-Speech (TTS)**: Converting written text back into spoken words
 - **Audio Output Systems**: Playing synthesized speech through speakers
@@ -20,7 +20,7 @@ Welcome to Module 5! Now that Jarvis can have intelligent conversations with you
 
 ---
 
-## 🔍 **Understanding the Code**
+##  **Understanding the Code**
 
 ### **Key Concepts**
 
@@ -59,7 +59,7 @@ speak_text(response)
 
 ---
 
-## 📁 **File Structure**
+##  **File Structure**
 
 ```
 05_speak_output/
@@ -73,13 +73,13 @@ speak_text(response)
 
 ---
 
-## 🔧 **How It Works**
+##  **How It Works**
 
 ### **Step 1: Complete the Voice Loop**
 ```python
 # 1. Record user speech and get AI response (from previous modules)
 response = get_chatgpt_response(messages)
-print(f"🤖 Jarvis: {response}")
+print(f" Jarvis: {response}")
 
 # 2. Now add the speaking part!
 speak_text(response)
@@ -123,7 +123,7 @@ def speak_text(text, voice="Alex", rate=200):
 
 ---
 
-## 🎮 **Running the Code**
+##  **Running the Code**
 
 ### **1. Navigate to the folder**
 ```bash
@@ -147,14 +147,14 @@ python main.py
 ```
 
 ### **5. Experience the full voice loop!**
-- **"🎙️ Speak now..."** - Say something to Jarvis
-- **"🤖 Jarvis: [text response]"** - See Jarvis's response
-- **"🔊 Speaking..."** - Hear Jarvis speak the response!
+- **" Speak now..."** - Say something to Jarvis
+- **" Jarvis: [text response]"** - See Jarvis's response
+- **" Speaking..."** - Hear Jarvis speak the response!
 - **Complete conversation**: Full voice-to-voice interaction
 
 ---
 
-## 🧪 **Experiments to Try**
+##  **Experiments to Try**
 
 ### **Basic TTS Testing**
 1. **Simple responses**: Ask Jarvis simple questions to test speech quality
@@ -174,27 +174,27 @@ python main.py
 
 ---
 
-## 🔍 **Understanding the Output**
+##  **Understanding the Output**
 
 ### **What You'll See and Hear**
 ```
-🎙️ Speak now. Jarvis is listening...
-🛑 Silence detected. Transcribing...
-📝 You said: Hello Jarvis, tell me a joke
-🤖 Jarvis: Why don't scientists trust atoms? Because they make up everything!
-🔊 Speaking complete.
+ Speak now. Jarvis is listening...
+ Silence detected. Transcribing...
+ You said: Hello Jarvis, tell me a joke
+ Jarvis: Why don't scientists trust atoms? Because they make up everything!
+ Speaking complete.
 ```
 
 ### **What Each Part Means**
-- **🎙️**: System is ready for voice input
-- **🛑**: Processing your speech
-- **📝**: What Jarvis understood you said
-- **🤖**: Jarvis's text response
-- **🔊**: TTS processing and playback
+- ****: System is ready for voice input
+- ****: Processing your speech
+- ****: What Jarvis understood you said
+- ****: Jarvis's text response
+- ****: TTS processing and playback
 
 ---
 
-## 🐛 **Common Issues & Solutions**
+##  **Common Issues & Solutions**
 
 ### **"No sound coming out"**
 ```bash
@@ -226,7 +226,7 @@ sudo apt-get install espeak festival
 
 ---
 
-## 🤔 **Wait, How Does Text-to-Speech Actually Work?**
+##  **Wait, How Does Text-to-Speech Actually Work?**
 
 Great question! Let me explain this in a way that makes sense without getting too technical.
 
@@ -262,7 +262,7 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 💡 **Pro Tips**
+##  **Pro Tips**
 
 1. **Test different TTS engines**: Each has different strengths and weaknesses
 2. **Adjust speech rate**: Find the speed that's most comfortable for you
@@ -272,16 +272,16 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 🎓 **Learning Check**
+##  **Learning Check**
 
 **Before moving to Module 6, you should be able to:**
-- ✅ Explain what text-to-speech is and why it's important for voice assistants
-- ✅ Understand how TTS completes the voice interaction loop
-- ✅ Successfully have Jarvis speak its responses to you
-- ✅ Troubleshoot common TTS and audio issues
-- ✅ Explain the difference between old and modern TTS systems
-- ✅ Understand how TTS engines work and why multiple backends are useful
+-  Explain what text-to-speech is and why it's important for voice assistants
+-  Understand how TTS completes the voice interaction loop
+-  Successfully have Jarvis speak its responses to you
+-  Troubleshoot common TTS and audio issues
+-  Explain the difference between old and modern TTS systems
+-  Understand how TTS engines work and why multiple backends are useful
 
 ---
 
-**🎉 Incredible! You've now completed the full voice loop. Your assistant can hear you, understand you, think about what you said, and respond with its own voice. This is a real, conversational AI voice assistant!**
+** Incredible! You've now completed the full voice loop. Your assistant can hear you, understand you, think about what you said, and respond with its own voice. This is a real, conversational AI voice assistant!**

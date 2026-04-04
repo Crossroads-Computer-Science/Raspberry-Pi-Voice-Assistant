@@ -10,7 +10,7 @@ Welcome to Module 7! Now that Jarvis can have conversations and respond to wake 
 
 ---
 
-## 🎯 **What You'll Learn**
+##  **What You'll Learn**
 
 - **Function Calling**: Giving AI access to real-world tools and capabilities
 - **API Integration**: Connecting to external services like weather APIs
@@ -20,7 +20,7 @@ Welcome to Module 7! Now that Jarvis can have conversations and respond to wake 
 
 ---
 
-## 🔍 **Understanding the Code**
+##  **Understanding the Code**
 
 ### **Key Concepts**
 
@@ -77,7 +77,7 @@ elif function_name == "set_timer":
 
 ---
 
-## 📁 **File Structure**
+##  **File Structure**
 
 ```
 07_function_calling/
@@ -131,7 +131,7 @@ response = get_chatgpt_response(messages, tools)
 
 # 2. AI decides if it needs to use any tools
 if response.tool_calls:
-    print("🛠️ Executing function calls...")
+    print(" Executing function calls...")
 ```
 
 **What happens:**
@@ -181,7 +181,7 @@ response = get_chatgpt_response(messages, tools)
 
 ---
 
-## 🎮 **Running the Code**
+##  **Running the Code**
 
 ### **1. Navigate to the folder**
 ```bash
@@ -205,15 +205,15 @@ python main.py
 ```
 
 ### **5. Test the superpowers!**
-- **"🎙️ Listening for trigger word 'Jarvis'..."** - System is ready
+- **" Listening for trigger word 'Jarvis'..."** - System is ready
 - **"Jarvis, what's the weather like?"** - AI will call weather function
-- **"🛠️ Executing function calls..."** - Functions are running
-- **"🤖 Jarvis: [response with real data]"** - AI speaks results
-- **"🎙️ Listening..."** - Ready for next command
+- **" Executing function calls..."** - Functions are running
+- **" Jarvis: [response with real data]"** - AI speaks results
+- **" Listening..."** - Ready for next command
 
 ---
 
-## 🧪 **Experiments to Try**
+##  **Experiments to Try**
 
 ### **Basic Function Testing**
 1. **Weather**: "Jarvis, what's the weather like in New York?"
@@ -232,35 +232,35 @@ python main.py
 
 ---
 
-## 🔍 **Understanding the Output**
+##  **Understanding the Output**
 
 ### **What You'll See**
 ```
-🎙️ Listening for trigger word 'Jarvis'...
-📝 You said: Jarvis, what's the weather like?
-✨ Trigger word detected! Processing request...
-🛠️ Executing function calls...
-🔧 Calling get_weather with args: {'latitude': 40.7128, 'longitude': -74.006}
-🌤️ Weather retrieved: Partly cloudy, 22.5°C
-🤖 Jarvis: The current weather is partly cloudy with a temperature of 22.5°C...
-🔊 Speaking complete.
-🎙️ Listening for trigger word 'Jarvis'...
+ Listening for trigger word 'Jarvis'...
+ You said: Jarvis, what's the weather like?
+ Trigger word detected! Processing request...
+ Executing function calls...
+ Calling get_weather with args: {'latitude': 40.7128, 'longitude': -74.006}
+ Weather retrieved: Partly cloudy, 22.5°C
+ Jarvis: The current weather is partly cloudy with a temperature of 22.5°C...
+ Speaking complete.
+ Listening for trigger word 'Jarvis'...
 ```
 
 ### **What Each Line Means**
-- **🎙️**: System listening for wake word
-- **📝**: Your request transcribed
-- **✨**: Wake word detected
-- **🛠️**: Functions being executed
-- **🔧**: Specific function being called
-- **🌤️**: Function result
-- **🤖**: AI response incorporating results
-- **🔊**: TTS playback
-- **🎙️**: Back to listening
+- ****: System listening for wake word
+- ****: Your request transcribed
+- ****: Wake word detected
+- ****: Functions being executed
+- ****: Specific function being called
+- ****: Function result
+- ****: AI response incorporating results
+- ****: TTS playback
+- ****: Back to listening
 
 ---
 
-## 🐛 **Common Issues & Solutions**
+##  **Common Issues & Solutions**
 
 ### **"Function not working"**
 - **Check internet**: Weather API needs internet connection
@@ -279,7 +279,7 @@ python main.py
 
 ---
 
-## 🤔 **Wait, How Does Function Calling Actually Work?**
+##  **Wait, How Does Function Calling Actually Work?**
 
 Great question! Let me explain this in a way that makes sense without getting too technical.
 
@@ -313,7 +313,7 @@ This is the final lesson module. The `raspberry_pi_production/` folder shows a p
 
 ---
 
-## 💡 **Pro Tips**
+##  **Pro Tips**
 
 1. **Be specific in requests**: Clear requests help AI choose the right tools
 2. **Test function combinations**: See how AI handles multiple tool calls
@@ -323,16 +323,16 @@ This is the final lesson module. The `raspberry_pi_production/` folder shows a p
 
 ---
 
-## 🎓 **Learning Check**
+##  **Learning Check**
 
 **Before moving to Module 8, you should be able to:**
-- ✅ Explain what function calling is and why it's powerful
-- ✅ Understand how AI chooses which tools to use
-- ✅ Successfully use Jarvis with function calling capabilities
-- ✅ Explain the difference between AI responses and function results
-- ✅ Troubleshoot common function calling issues
-- ✅ Understand how to add new functions to the system
+-  Explain what function calling is and why it's powerful
+-  Understand how AI chooses which tools to use
+-  Successfully use Jarvis with function calling capabilities
+-  Explain the difference between AI responses and function results
+-  Troubleshoot common function calling issues
+-  Understand how to add new functions to the system
 
 ---
 
-**🎉 Phenomenal! You've now mastered function calling. Your voice assistant isn't just smart - it's capable! Jarvis can now check the weather, set timers, tell you the time, and perform real actions. This is a truly intelligent, useful AI assistant!**
+** Phenomenal! You've now mastered function calling. Your voice assistant isn't just smart - it's capable! Jarvis can now check the weather, set timers, tell you the time, and perform real actions. This is a truly intelligent, useful AI assistant!**

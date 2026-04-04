@@ -10,7 +10,7 @@ Welcome to Module 2! Now that you can record and play audio, let's make your sys
 
 ---
 
-## 🎯 **What You'll Learn**
+##  **What You'll Learn**
 
 - **Voice Activity Detection (VAD)**: Automatically detecting speech vs. silence
 - **Real-time Audio Processing**: Processing audio as it comes in, not just after recording
@@ -20,7 +20,7 @@ Welcome to Module 2! Now that you can record and play audio, let's make your sys
 
 ---
 
-## 🔍 **Understanding the Code**
+##  **Understanding the Code**
 
 ### **Key Concepts**
 
@@ -67,7 +67,7 @@ if num_unvoiced > 0.9 * ring_buffer.maxlen:
 
 ---
 
-## 📁 **File Structure**
+##  **File Structure**
 
 ```
 02_detect_speech/
@@ -79,7 +79,7 @@ if num_unvoiced > 0.9 * ring_buffer.maxlen:
 
 ---
 
-## 🔧 **How It Works**
+##  **How It Works**
 
 ### **Step 1: Initialize VAD System**
 ```python
@@ -128,7 +128,7 @@ else:
 
 ---
 
-## 🎮 **Running the Code**
+##  **Running the Code**
 
 ### **1. Navigate to the folder**
 ```bash
@@ -146,14 +146,14 @@ python main.py
 ```
 
 ### **4. Watch the magic happen!**
-- **"🎙️ Voice Activity Detection Demo"** - System is starting
-- **"🎤 Speech detected!"** - You're speaking
-- **"🔇 Silence..."** - You're quiet
+- **" Voice Activity Detection Demo"** - System is starting
+- **" Speech detected!"** - You're speaking
+- **" Silence..."** - You're quiet
 - **Press Ctrl+C** to stop the program
 
 ---
 
-## 🧪 **Experiments to Try**
+##  **Experiments to Try**
 
 ### **Basic VAD Testing**
 1. **Speak clearly**: Say "Hello, this is a test" and watch for detection
@@ -173,30 +173,30 @@ python main.py
 
 ---
 
-## 🔍 **Understanding the Output**
+##  **Understanding the Output**
 
 ### **What You'll See**
 ```
-🎙️ Voice Activity Detection Demo
-🎤 Speech detected!
-🎤 Speech detected!
-🎤 Speech detected!
-🔇 Silence...
-🔇 Silence...
-🎤 Speech detected!
-🎤 Speech detected!
-🔇 Silence...
+ Voice Activity Detection Demo
+ Speech detected!
+ Speech detected!
+ Speech detected!
+ Silence...
+ Silence...
+ Speech detected!
+ Speech detected!
+ Silence...
 ```
 
 ### **What Each Line Means**
-- **🎙️**: VAD system started successfully
-- **🎤**: VAD detected speech in the current audio chunk
-- **🔇**: VAD detected silence in the current audio chunk
+- ****: VAD system started successfully
+- ****: VAD detected speech in the current audio chunk
+- ****: VAD detected silence in the current audio chunk
 - **Continuous updates**: New status every 30ms (or whatever chunk size you set)
 
 ---
 
-## 🐛 **Common Issues & Solutions**
+##  **Common Issues & Solutions**
 
 ### **"VAD not detecting speech"**
 ```bash
@@ -231,7 +231,7 @@ chunk_duration = 0.05  # Larger chunks = fewer processing calls
 
 ---
 
-## 🧠 **Key Learning Points**
+##  **Key Learning Points**
 
 ### **VAD Fundamentals**
 - **Speech vs. noise**: VAD distinguishes human speech from background sounds
@@ -269,7 +269,7 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 💡 **Pro Tips**
+##  **Pro Tips**
 
 1. **Start with clear speech**: Good microphone input = better VAD results
 2. **Adjust aggressiveness**: Level 2 is usually good, but adjust based on your environment
@@ -279,19 +279,19 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 🎓 **Learning Check**
+##  **Learning Check**
 
 **Before moving to Module 3, you should be able to:**
-- ✅ Explain what Voice Activity Detection is and why it's useful
-- ✅ Understand how real-time audio streaming works
-- ✅ Explain the difference between streaming and recording audio
-- ✅ Modify VAD aggressiveness and see the effects
-- ✅ Troubleshoot common VAD issues
-- ✅ Explain how audio chunking works for real-time processing
+-  Explain what Voice Activity Detection is and why it's useful
+-  Understand how real-time audio streaming works
+-  Explain the difference between streaming and recording audio
+-  Modify VAD aggressiveness and see the effects
+-  Troubleshoot common VAD issues
+-  Explain how audio chunking works for real-time processing
 
 ---
 
-## 🤔 **Wait, How Does VAD Actually Work?**
+##  **Wait, How Does VAD Actually Work?**
 
 Great question! Let me explain this in a way that makes sense without getting too technical.
 
@@ -312,4 +312,4 @@ Imagine you're in a coffee shop. There's background music, people chatting, coff
 
 ---
 
-**🎉 Excellent! You've now mastered real-time audio processing. Your system can automatically detect when someone is speaking - this is the foundation for truly intelligent voice interaction!**
+** Excellent! You've now mastered real-time audio processing. Your system can automatically detect when someone is speaking - this is the foundation for truly intelligent voice interaction!**

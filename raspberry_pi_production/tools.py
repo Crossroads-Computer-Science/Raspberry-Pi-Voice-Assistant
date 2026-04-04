@@ -18,7 +18,7 @@ try:
     TRIGGER_BUTTON = Button(25, pull_up=True)
     GPIO_AVAILABLE = True
 except:
-    print("⚠️ GPIO not available - running without hardware indicators")
+    print(" GPIO not available - running without hardware indicators")
     GPIO_AVAILABLE = False
 
 class RaspberryPiTools:
@@ -37,13 +37,13 @@ class RaspberryPiTools:
             
             # Setup button handler
             TRIGGER_BUTTON.when_pressed = self._button_pressed
-            print("✅ GPIO setup complete")
+            print(" GPIO setup complete")
         except Exception as e:
-            print(f"⚠️ GPIO setup error: {e}")
+            print(f" GPIO setup error: {e}")
     
     def _button_pressed(self):
         """Handle button press events"""
-        print("🔘 Manual trigger button pressed!")
+        print(" Manual trigger button pressed!")
         # This could be used to manually activate the assistant
     
     def set_led(self, led_name, state):
@@ -59,7 +59,7 @@ class RaspberryPiTools:
             elif led_name == "weather":
                 WEATHER_LED.on() if state else WEATHER_LED.off()
         except Exception as e:
-            print(f"⚠️ LED control error: {e}")
+            print(f" LED control error: {e}")
     
     def get_system_status(self) -> dict:
         """
@@ -162,7 +162,7 @@ class RaspberryPiTools:
                 "location": f"{latitude:.2f}, {longitude:.2f}"
             }
             
-            print(f"🌤️ Weather retrieved: {weather_description}, {weather_data['temperature_celsius']}°C")
+            print(f" Weather retrieved: {weather_description}, {weather_data['temperature_celsius']}°C")
             return weather_data
             
         except requests.exceptions.Timeout:
@@ -305,7 +305,7 @@ class RaspberryPiTools:
                 self.set_led("timer", False)
                 
         except Exception as e:
-            print(f"❌ Timer {timer_id} error: {e}")
+            print(f" Timer {timer_id} error: {e}")
     
     def cancel_timer(self, timer_id: int) -> dict:
         """Cancel an active timer."""

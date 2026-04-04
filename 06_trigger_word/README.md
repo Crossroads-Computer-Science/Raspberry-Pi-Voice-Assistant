@@ -10,7 +10,7 @@ Welcome to Module 6! Now that your voice assistant can have full conversations, 
 
 ---
 
-## 🎯 **What You'll Learn**
+##  **What You'll Learn**
 
 - **Wake Word Detection**: Making your assistant respond to a specific trigger phrase
 - **Continuous Listening**: Keeping your system always ready for commands
@@ -20,7 +20,7 @@ Welcome to Module 6! Now that your voice assistant can have full conversations, 
 
 ---
 
-## 🔍 **Understanding the Code**
+##  **Understanding the Code**
 
 ### **Key Concepts**
 
@@ -30,7 +30,7 @@ TRIGGER_WORD = "jarvis"  # The wake word that activates the assistant
 
 # Check if trigger word was spoken
 if TRIGGER_WORD in user_text.lower():
-    print("✨ Trigger word detected! Processing request...")
+    print(" Trigger word detected! Processing request...")
 ```
 - **What it does**: Listens for a specific word or phrase to activate
 - **How it works**: Continuously monitors transcribed speech for the trigger
@@ -50,7 +50,7 @@ while True:
         if TRIGGER_WORD in user_text.lower():
             # Process the request
         else:
-            print("❌ Trigger word not found. Waiting for 'Jarvis'...")
+            print(" Trigger word not found. Waiting for 'Jarvis'...")
 ```
 - **Always on**: System runs continuously, waiting for activation
 - **Efficient processing**: Only does heavy work when wake word is detected
@@ -74,7 +74,7 @@ if TRIGGER_WORD in user_text.lower():
 
 ---
 
-## 📁 **File Structure**
+##  **File Structure**
 
 ```
 06_trigger_word/
@@ -88,7 +88,7 @@ if TRIGGER_WORD in user_text.lower():
 
 ---
 
-## 🔧 **How It Works**
+##  **How It Works**
 
 ### **Step 1: Always Listening**
 ```python
@@ -116,7 +116,7 @@ while True:
 ```python
 # 1. Check if "jarvis" is in the transcribed text
 if TRIGGER_WORD in user_text.lower():
-    print("✨ Trigger word detected! Processing request...")
+    print(" Trigger word detected! Processing request...")
     
     # 2. Extract the actual request
     request = user_text.lower().replace(TRIGGER_WORD, "").strip()
@@ -141,7 +141,7 @@ speak_text(response)
 messages.append({"role": "assistant", "content": response})
 
 # 3. Return to listening mode
-print("🎙️ Listening for trigger word 'Jarvis'...")
+print(" Listening for trigger word 'Jarvis'...")
 ```
 
 **What happens:**
@@ -152,7 +152,7 @@ print("🎙️ Listening for trigger word 'Jarvis'...")
 
 ---
 
-## 🎮 **Running the Code**
+##  **Running the Code**
 
 ### **1. Navigate to the folder**
 ```bash
@@ -176,15 +176,15 @@ python main.py
 ```
 
 ### **5. Experience hands-free operation!**
-- **"🎙️ Listening for trigger word 'Jarvis'..."** - System is ready
+- **" Listening for trigger word 'Jarvis'..."** - System is ready
 - **Say "Jarvis" + your request** - Wake word activates the system
-- **"✨ Trigger word detected!"** - System is processing your request
+- **" Trigger word detected!"** - System is processing your request
 - **Jarvis responds** - You get your answer
 - **Returns to listening** - Ready for next command
 
 ---
 
-## 🧪 **Experiments to Try**
+##  **Experiments to Try**
 
 ### **Basic Wake Word Testing**
 1. **Simple activation**: Say "Jarvis, hello" and see it respond
@@ -205,31 +205,31 @@ python main.py
 
 ---
 
-## 🔍 **Understanding the Output**
+##  **Understanding the Output**
 
 ### **What You'll See**
 ```
-🎙️ Listening for trigger word 'Jarvis'...
-🛑 Silence detected. Transcribing...
-📝 You said: Jarvis, what's the weather like?
-✨ Trigger word detected! Processing request...
-🤖 Jarvis: [AI response about weather]
-🔊 Speaking complete.
-🎙️ Listening for trigger word 'Jarvis'...
+ Listening for trigger word 'Jarvis'...
+ Silence detected. Transcribing...
+ You said: Jarvis, what's the weather like?
+ Trigger word detected! Processing request...
+ Jarvis: [AI response about weather]
+ Speaking complete.
+ Listening for trigger word 'Jarvis'...
 ```
 
 ### **What Each Line Means**
-- **🎙️**: System is actively listening for wake word
-- **🛑**: Processing detected speech
-- **📝**: What the system heard you say
-- **✨**: Wake word detected - processing your request
-- **🤖**: Jarvis's response
-- **🔊**: TTS playback complete
-- **🎙️**: Back to listening mode
+- ****: System is actively listening for wake word
+- ****: Processing detected speech
+- ****: What the system heard you say
+- ****: Wake word detected - processing your request
+- ****: Jarvis's response
+- ****: TTS playback complete
+- ****: Back to listening mode
 
 ---
 
-## 🐛 **Common Issues & Solutions**
+##  **Common Issues & Solutions**
 
 ### **"Wake word not being detected"**
 - **Speak clearly**: Make sure "Jarvis" is pronounced clearly
@@ -286,7 +286,7 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 💡 **Pro Tips**
+##  **Pro Tips**
 
 1. **Choose a unique wake word**: "Jarvis" is good, but avoid common words like "Hey" or "Hello"
 2. **Test in your environment**: Background noise affects wake word detection
@@ -296,16 +296,16 @@ After mastering this module, you'll be ready for:
 
 ---
 
-## 🎓 **Learning Check**
+##  **Learning Check**
 
 **Before moving to Module 7, you should be able to:**
-- ✅ Explain what wake word detection is and why it's useful
-- ✅ Understand how continuous listening works
-- ✅ Successfully activate Jarvis with the wake word
-- ✅ Explain the difference between listening mode and processing mode
-- ✅ Troubleshoot common wake word detection issues
-- ✅ Understand how the system optimizes for efficiency
+-  Explain what wake word detection is and why it's useful
+-  Understand how continuous listening works
+-  Successfully activate Jarvis with the wake word
+-  Explain the difference between listening mode and processing mode
+-  Troubleshoot common wake word detection issues
+-  Understand how the system optimizes for efficiency
 
 ---
 
-**🎉 Outstanding! You've now mastered wake word detection. Your voice assistant is truly hands-free and always ready to help. Just say "Jarvis" and it springs to life - this is the kind of technology you see in sci-fi movies!**
+** Outstanding! You've now mastered wake word detection. Your voice assistant is truly hands-free and always ready to help. Just say "Jarvis" and it springs to life - this is the kind of technology you see in sci-fi movies!**
