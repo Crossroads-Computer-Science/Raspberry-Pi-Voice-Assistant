@@ -112,10 +112,13 @@ def main():
                 response = get_chatgpt_response(messages, tools)
                 
                 # Handle function calls if present
-                if response.tool_calls:
+                if response.message.tool_calls:
                     print(" Executing function calls...")
-                    
-                    for tool_call in response.tool_calls:
+
+                    # Append assistant message with tool_calls before tool results
+                    messages.append(response.message)
+
+                    for tool_call in response.message.tool_calls:
                         function_name = tool_call.function.name
                         function_args = json.loads(tool_call.function.arguments)
                         
