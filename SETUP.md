@@ -19,7 +19,13 @@ Open the VS Code terminal (**Terminal > New Terminal**) and run:
 python3 -m venv .venv
 ```
 
-VS Code will detect the new environment and ask if you want to use it — click **Yes**. From now on, VS Code will automatically activate it whenever you open a terminal in this project.
+You can activate the virtual environment with: 
+
+```bash
+source .venv/bin/activate
+```
+
+Alternately, VS Code will detect the new environment and ask if you want to use it — click **Yes**. From now on, VS Code will automatically activate it whenever you open a terminal in this project.
 
 ### 3. Get an OpenAI API Key
 
